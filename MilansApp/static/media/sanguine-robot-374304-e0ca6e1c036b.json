@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "sanguine-robot-374304",
+  "private_key_id": "e0ca6e1c036b0642f91ff99d7d3e2f126f45e83d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDevtlzDvYVXCuW\nd/4oiEJ1ZWGzKo1TTciseOOPHMEV1mEEv4PA9T4LX3uPEaAFnOR1YsSU9M6AU0EJ\n6970t7xIlMfh42rdLeCzbd/mvbrbdFtqldpilfGo612ibuNDPyXv+96xMRieWkUn\nVyO74BxQEuVKzHEGOtMWs5imUL/BqaKdyKdZW+gI+8ledlXORrVYgFbE5yYetTpw\nZ/AoZAH48oOhupKhLy7Fz/5jFfEU0YxeH4SnDVVRMn1MC79CxhKsTfMyVj43YoAM\nqhTG1dFsMpxT/UpsjF0TVTvTaQKMsQgHKFIV7xBIx0Hh7Y+8Y15x1xUyH9RUgBGO\nOTrlNsz3AgMBAAECggEAEh9M6cOJ2esJ0NAqaXnMjmiVLlKD9QcbEI01Vmtsei5a\n7lv2iDhrt9ko4Fb6wfolzDcg702Lj302iWwbU6WvN+iC6qnqA9y7r119HfTJwxkQ\nZveSMPsqEig0EgcbjlkQ6RmA4MGx0xBdF/pK+fod05X1+cPwXiVjDzHFdaKUN1lC\n9L8nJySFTdy4czGqa3l5vjDIgvTcWEoZxSGBdsJWIablKGWYGmamc7woSkxv5R4/\nTcppWMtNYWSscxG2nLla0Dj+FElwXJaBSgtOzkRDJe+8ywMyjf+HU1DHZi3Fnxx8\n6KL/dfCQ9BU1PcIhLCo+OYCSmstfnP+VbphsRU70wQKBgQD3A/7TSrLbZ6298O0L\nVdocfiPx1ij49xxJ77ywx0D1zYFC7QKZirWkYH5qs5HK6kTraedXUOr18CTrPgT9\nWjRdE1paTUl2Fg+iOd3SZcF9uO7BvZ7LFTVhNr2sNAU7dWxCkaZ6JHQYng4+DfON\nmGvoRImM5fV1Jbe9Opcef84qvwKBgQDm2N71XQgXdmGFxD2L527X3Fom6eAz0jXv\nlEroLUskj3M6+n3zU5sbqV7TtjP1sghJkgAj9tjn5FCy6Ef5Ge1Wpmd71YRlgyFr\nh0tasZeer3pDspnD2EvIEHCjEctNGRZ8nmr8MgHWmnyl91f4nragcJPRHTX4nHsC\naNyMRukDyQKBgCHyw5/oYUJ0MlWrefiX2P0XfPsssr7cv1+N+kHVcKEXmE9JYZUW\nkjZAKL+jZEMeBVDRYkEG1vPsCDbodCkZr56nHUDR5Gm9SHLEPy8+WuRbeTzZQayp\ngoeUzWaQU7PDRJi1icq5ndcQSebPZgysyQ/H85uQszZhc6onFkPTztLjAoGAMuYK\ncusqR5IQeqAEOf6zT+ED96SFjKeCwOpfgcXK1arTa2OjtazvfC/h+qgn2LqCXUZV\nxZg9xxNuP6Q7ik8PJ5XVJ1aytHcvPTg9gye5GIH0YUzV3nqoatpFG49m1f78GEoN\nqMGV6i1x4l4hBW5pMgLgdLEOH1zROnzIdB2GbxECgYA2v6SmpB6y4Qp3Z2tHyX/d\ntER1VHj6u5jBVoJom1Ge1HjrI40pz7KD9AfdXtKwX9FR82MG9ZMJKo9iVUAPyCbE\nv52wFAstRTyTtAgLn4VanrpQLnwyAIHufcARNUy+G3CyCQQ12AjTEFUyT3RkDCEq\nAy/L33AbABQxNaP6cfWZXg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "fabmagics@sanguine-robot-374304.iam.gserviceaccount.com",
+  "client_id": "117290654155889160661",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/fabmagics%40sanguine-robot-374304.iam.gserviceaccount.com"
+}

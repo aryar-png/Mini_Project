@@ -1,0 +1,25 @@
+{% extends 'CustomerPage.html' %}
+{% block body %}
+<form method="POST" >
+    {% csrf_token %}
+    <table class="customers">
+        <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <!-- <th>Status</th> -->
+                
+                  
+        </tr>
+        {% for d in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{d.9}}</td>
+            <td>{{d.4}}</td>
+           
+            <!-- <td>{{d.5}}</td> -->
+        </tr>
+        {% endfor %}
+    </table>
+    </form>
+    {% endblock %}
