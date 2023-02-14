@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+
+    <link rel="stylesheet" href="css/profile.css">
+    <style>
+        body {
+    background: rgba(139, 75, 142, 0.449)
+
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(179, 132, 171);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #8c7491
+}
+
+.profile-button:focus {
+    background: #a888ae;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #806f7d;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #785e7c;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+</style>
+  </head>
+  <body>
+   <!--  <h1>Hello, world!</h1> -->
+   <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">My Profile</h4>
+                </div>
+                <form method="post" action="/myprofile">
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">Name</label>
+                        <input type="text" class="form-control"  name="uname" value="Username"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12"><label class="labels">Email</label>
+                        <input type="text" class="form-control" placeholder="enter email" name="uemail" value="Useremail>"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12"><label class="labels">Address</label>
+                        <input type="text" class="form-control" placeholder="enter email" name="uaddress" value="Useremail>"></div> 
+                    </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12"><label class="labels">District</label>
+                            <input type="text" class="form-control" placeholder="enter email" name="udistrict" value="Useremail>"></div> 
+                        </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Mobile</label>
+                                <input type="text" class="form-control" placeholder="enter email" name="umob" value="Useremail>"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Password</label>
+                                <input type="text" class="form-control" placeholder="enter email" name="upass" value="Useremail>"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Location</label>
+                                <input type="text" class="form-control" placeholder="enter email" name="uloc" value="Useremail>"></div>
+                            </div>
+                        
+                                
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                        <input type="submit" class="btn btn-success" name="submit"></div>
+                        <div class="row mt-3">
+                    </div>
+                </form>
+                
+        </div>
+    </div>
+</div>
+</div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  </body>
+</html>

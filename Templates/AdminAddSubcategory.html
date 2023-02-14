@@ -183,18 +183,28 @@
             <thead>
                 <tr>
                     <th>Sl no</th>
+                    <th>Category</th>
                     <th>Subcategory</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                {% for d in sdata %}
+                {% for d in data %}
                 <tr>
                     <td class="py-3">{{forloop.counter}}</td>
-                    <td class="py-3">{{d.2}}</td>
+                    <td class="py-3">{{d.1}}</td>
+                    <td class="py-3">{{d.5}}</td>
                    
                     
-                    <td><button class="btn-success"><a href="/AdminAddSubCategory/?id={{d.0}}" style="color:aliceblue">Remove</a></button></td>
+                    <!-- <td><button class="btn-success"><a href="/AdminAddSubCategory/?id={{d.0}}" style="color:aliceblue">Remove</a></button></td> -->
+                    <td class="py-3"><a href='/SubRestoreProduct?id={{d.0}}' style="color:aliceblue;">
+                        {% if d.3 == st %}
+                        
+                        <button class="btn-danger">  DeActivate
+                    {% else %}
+                    <button class="btn-success"> Active
+                        {% endif %}
+                    </a></button></td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -149,12 +149,13 @@
     <div class="my-5 py-5 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
         <div>
             <table align="center">
-                <tr>
-                <td class="py-3">
-                    <label>New Price</label></td>
-                    <td><input type="number" value="{{d.6}}" name="price" min="5" onkeyup="val_service_amt(this)" class="textbox"></td>
-                    <span id="error_price"></span>
-                 </tr>
+                 <tr>
+                    <td class="py-3">
+                        <label>New Price</label></td>
+                        <td><input type="number" value="{{d.6}}" name="price" id="price" onkeyup="val_price_amt(this)" class="textbox"></td>
+                        <span id="error_price"></span>
+                     </tr>
+                     <tr>
                  <tr>
                     <td class="py-3"><label>Old Quantity</label></td>
                     <td><input type="number" value="{{d.8}}" name="qty" class="textbox" readonly>
@@ -162,12 +163,12 @@
                  </tr>
                  <tr>
                     <td class="py-3"><label>New Quantity</label></td>
-                    <td><input type="number" value="{{d.8}}" name="qty" min="1" onkeyup="val_service_amt(this)" class="textbox">
+                    <td><input type="number" value="{{d.8}}" name="qty" min="1" id="qty" onkeyup="val_qty_amt(this)" class="textbox">
                         <span id="error_qty"></span></td>
                  </tr>
                  <tr>
                   <td class="py-3"><label>Image</label></td>
-                  <td><input type="file" name="file" class="textbox" onchange="val_file(this)" id="image"></td>
+                  <td><input type="file" name="file" class="textbox" onchange="val_file(this)" id="image" value="{{d.5}}"></td>
                   <span id="error_img"></span>
               </tr>
               <tr>
@@ -185,9 +186,10 @@
 
 </form>
 <script>
-    function val_service_amt(amnt)
+    
+    function val_price_amt(price)
         {
-            if(amnt.value=="")
+            if(price.value < 5)
             {
                 document.getElementById("error_price").innerHTML="Enter valid amount";
                 document.getElementById("error_price").style.color = "red";
@@ -198,12 +200,12 @@
                 document.getElementById("error_price").style.color = "red";
                 document.getElementById('add').removeAttribute('disabled',true);
             }
-        }    
-        function val_qty_amt(amnt)
+        }      
+        function val_qty_amt(qty)
         {
-            if(amnt.value=="")
+            if(qty.value < 1)
             {
-                document.getElementById("error_qty").innerHTML="Enter valid amount";
+                document.getElementById("error_qty").innerHTML="Enter qty greater than 0";
                 document.getElementById("error_qty").style.color = "red";
                 document.getElementById('add').setAttribute('disabled',true);
             }
@@ -212,37 +214,10 @@
                 document.getElementById("error_qty").style.color = "red";
                 document.getElementById('add').removeAttribute('disabled',true);
             }
-        }    
+        }   
+        
+      
 
 </script>
 {% endblock %}
-
-
-
-
-def AdminViewProduct(request):
-    c.execute("select * from categories")
-    cdata=c.fetchall()
-    c.execute("select * from subcategory")
-    sdata=c.fetchall()
-    c.execute("select * from product")
-    data = c.fetchall()
-    if request.POST:
-        cid=request.POST["t11"]
-        sid=request.POST["t12"]
-        c.execute("select  * from product where catid='"+str(cid)+"' or subid='"+str(sid)+"'")
-        data=c.fetchall()
-    if request.GET:
-        st = request.GET.get('st')
-        pid = request.GET.get('id')
-        if st == 'Accept':
-            return HttpResponseRedirect("/AdminUpdateProduct/")
-        else:
-            c.execute("delete from product where pid = '"+str(pid)+"'")
-            db.commit()
-    return render(request,"AdminViewProduct.html",{"data":data,"cdata":cdata,"sdata":sdata})
-
-
-
-
 

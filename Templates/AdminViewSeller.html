@@ -84,7 +84,7 @@
                     <div class="col-md-3">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
-                                <h3 class="fs-2">720</h3>
+                                <h3 class="fs-2">{{productcount.0}}</h3>
                                 <p class="fs-5">Products</p>
                             </div>
                             <i class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></i>
@@ -105,8 +105,10 @@
                     <div class="col-md-3">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
-                                <h3 class="fs-2">3899</h3>
-                                <p class="fs-5">Delivery</p>
+                                {% for d in datas %}
+                                <p >{{d.3}}</p>
+                                {% endfor %}
+                                <p class="fs-5 text-danger">Out of stock</p>
                             </div>
                             <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
                         </div>
@@ -115,13 +117,13 @@
                     <div class="col-md-3">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
-                                <h3 class="fs-2">%25</h3>
-                                <p class="fs-5">Increase</p>
+                                <h3 class="fs-2">{{staffcount.0}}</h3>
+                                <p class="fs-5">Sellers</p>
                             </div>
-                            <i class="fas fa-chart-line fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                            <i class="fas fa-truck fs-1 primary-text border rounded-full secondary-bg p-3"></i>
                         </div>
                     </div>
-                </div>
+
 
            
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
@@ -163,13 +165,20 @@
             <td>{{d.4}}</td>
             <td>{{d.5}}</td>
             <td>{{d.6}}</td>
-            <td class="py-3"><button class="btn-success"><a href='/Adminactiveseller?id={{d.0}}' style="color:aliceblue;">Activate</a></button></td>
-            <td class="py-3"><button class="btn-success"><a href='/Admindeleteseller?id={{d.0}}' style="color:aliceblue;">Deactivate</a></button></td>
-            
+            <td class="py-3"><a href='/Adminactiveseller?id={{d.0}}' style="color:aliceblue;">
+            {% if d.8 == st %}
+                        
+            <button class="btn-danger">  DeActivate
+            {% else %}
+            <button class="btn-success">Active
+                {% endif %}</a></button></td>
+            <!-- <td class="py-3"><button class="btn-success"><a href='/Admindeleteseller?id={{d.0}}' style="color:aliceblue;">Deactivate</a></button></td> -->
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+</div>
 </div>
 </div>
 
@@ -178,5 +187,4 @@
 </div>
 <!-- /#page-content-wrapper -->
 </div>
-
 {% endblock %}

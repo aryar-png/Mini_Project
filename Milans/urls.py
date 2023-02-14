@@ -28,14 +28,14 @@ urlpatterns = [
     path('changepassword/',views.changepassword,name='changepassword'),
      path('custdeactivate/',views.custdeactivate,name='custdeactivate'),
     
-path('SellerPage/',views.SellerPage,name='SellerPage'),
+path('SellerHome/',views.SellerHome,name='SellerHome'),
 path('SellerAddProduct/',views.SellerAddProduct,name='SellerAddProduct'),
 path('SellerViewCustomers/',views.SellerViewCustomers,name='SellerViewCustomers'),
 path('SellerViewProduct/',views.SellerViewProduct,name='SellerViewProduct'),
 path('SellerDeleteProduct/',views.SellerDeleteProduct,name='SellerDeleteProduct'),
 path('SellerUpdateProduct/',views.SellerUpdateProduct,name='SellerUpdateProduct'),
 path('SellerRestoreProduct/',views.SellerRestoreProduct,name='SellerRestoreProduct'), 
- path('Acceptorder/',views.Acceptorder,name='Acceptorder'), 
+path('Acceptorder/',views.Acceptorder,name='Acceptorder'), 
 
     path('AdminViewMyBooking/',views.AdminViewMyBooking,name='AdminViewMyBooking'),
     path('AdminViewCustomers/',views.AdminViewCustomers,name='Admin View Customers'),
@@ -70,9 +70,12 @@ path('SellerRestoreProduct/',views.SellerRestoreProduct,name='SellerRestoreProdu
     path('payment3/',views.payment3,name='payment3'),
     path('payment4/',views.payment4,name='payment4'),
     path('payment5/',views.payment5,name='payment5'),
-         
+    path('SubRestoreProduct/',views.SubRestoreProduct,name="SubRestoreProduct"),
+    path('CatRestoreProduct/',views.CatRestoreProduct ,name="CatRestoreProduct"), 
+
+path('myprofile/',views.MyProfile ,name="MyProfile"),
         
-          
+         
           
 
 ]

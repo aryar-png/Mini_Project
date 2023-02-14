@@ -155,7 +155,7 @@
                 </tr>
                 <tr>
                     <td class="py-3"><label>Category Name</label></td>
-                    <td><select name="cat" class="textbox" id="cat" onkeyup="validateSelect(this)" style="color: rgb(9, 9, 9);" >
+                    <td><select name="cat" class="textbox" id="cat" onchange="val_checkblank(this)" style="color: rgb(9, 9, 9);" >
                             <option value="0">---Select Category---</option>
                                 {%for c in cat %}
                             <option value="{{c.0}}">{{c.1}}</option>
@@ -187,12 +187,12 @@
                 </tr> -->
                 <tr>
                     <td class="py-3"><label>Price</label></td>
-                    <td><input type="number" name="price"  onkeyup="val_service_amt(this)" class="textbox"></td>
+                    <td><input type="number" name="price"  id="price" onkeyup="val_price_amt(this)" class="textbox"></td>
                     <span id="error_price"></span>
                 </tr>
                 <tr>
                     <td class="py-3"><label>Quantity</label></td>
-                    <td><input type="number" name="qty" onkeyup="val_service_amt(this)" class="textbox"></td>
+                    <td><input type="number" name="qty" id="qty" onkeyup="val_qty_amt(this)" class="textbox"></td>
                     <span id="error_qty"></span>
                 </tr>
                 <tr>
@@ -212,7 +212,7 @@
                     <td> <input type="text" class="textbox"  onkeyup="desValidator(this)" name="des"></td>
                     <span id="error_msg"></span>
                 </tr>
-                
+               
                 <tr>
                     <td class="py-3"><input type="submit" value="Add" id="add" name="Add" class="btn-success"/></td>
                 </tr>
@@ -248,8 +248,7 @@
                 })
                 })
 
-        
-     
+    
         function textValidator(input) {
         var re = /^[^-\s][A-Za-z ]+$/;
         if (!re.test(input.value)) {
@@ -316,9 +315,9 @@
     }
     
 
-        function val_service_amt(amnt)
+        function val_price_amt(price)
         {
-            if(amnt.value=="")
+            if(price.value < 5)
             {
                 document.getElementById("error_price").innerHTML="Enter valid amount";
                 document.getElementById("error_price").style.color = "red";
@@ -330,11 +329,26 @@
                 document.getElementById('add').removeAttribute('disabled',true);
             }
         }    
-        function val_qty_amt(amnt)
+
+        function val_checkblank(cat)
         {
-            if(amnt.value=="")
+            if(cat.value == 0)
             {
-                document.getElementById("error_qty").innerHTML="Enter valid amount";
+                document.getElementById("error_price").innerHTML="Please select";
+                document.getElementById("error_price").style.color = "red";
+                document.getElementById('add').setAttribute('disabled',true);
+            }
+            else{
+                document.getElementById("error_price").innerHTML="";
+                document.getElementById("error_price").style.color = "red";
+                document.getElementById('add').removeAttribute('disabled',true);
+            }
+        }   
+        function val_qty_amt(qty)
+        {
+            if(qty.value < 1)
+            {
+                document.getElementById("error_qty").innerHTML="Enter qty greater than 0";
                 document.getElementById("error_qty").style.color = "red";
                 document.getElementById('add').setAttribute('disabled',true);
             }
@@ -343,7 +357,7 @@
                 document.getElementById("error_qty").style.color = "red";
                 document.getElementById('add').removeAttribute('disabled',true);
             }
-        }  
+        }   
         
         
     function fileValidation(){

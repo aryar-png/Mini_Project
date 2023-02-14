@@ -201,7 +201,15 @@
                                    
                                     <td class="py-3">{{forloop.counter}}</td>
                                     <td class="py-3">{{d.1}}</td>
-                                    <td class="py-3"><Button class="btn-success"><a href="/AdminAddCategory/?id={{d.0}}" style="color:aliceblue;">Remove</a></Button></td>
+                                    <!-- <td class="py-3"><Button class="btn-success"><a href="/AdminAddCategory/?id={{d.0}}" style="color:aliceblue;">Remove</a></Button></td> -->
+                                    <td class="py-3"><a href='/CatRestoreProduct?id={{d.0}}' style="color:aliceblue;">
+                        {% if d.2 == st %}
+                        
+                        <button class="btn-danger">  DeActivate
+                    {% else %}
+                    <button class="btn-success"> Active
+                        {% endif %}
+                    </a></button></td>
                                 </tr>
                                 <tr>
                             </tbody>

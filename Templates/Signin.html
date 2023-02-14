@@ -2,7 +2,32 @@
 
 
 {% block body %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://kit.fontawesome.com/af562a2a63.js" crossorigin="anonymous"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 
+
+<script type="text/javascript">
+ 
+  $(document).on('click','#submit',function()
+  {  $("#captcha_message").hide();
+ var response = grecaptcha.getResponse();
+ if(response.length == 0)
+ {
+ $("#captcha_message").html("Please verify you are not a robot");
+               $("#captcha_message").show();
+ return false;
+ }
+ else{
+ $("#captcha_message").hide();
+ return true;
+ }
+  });
+ 
+ 
+</script>
 
 <div class="form-body form-body-info">
     <h1 style="font-size: x-large;">LOGIN</h1>
@@ -24,14 +49,15 @@
         <div class="bottom">
             <div class="form-group">
                 <div class="checkbox">
-                    <label>
+                    <!-- <label>
                         <input type="checkbox" id="terms1" data-error="Before you wreck yourself">
                         Remember me
-                    </label>
+                    </label> -->
                     <div class="help-block with-errors"></div>
                 </div>
             </div>
+            <div class="g-recaptcha" data-sitekey="6LdMZn0kAAAAAKrZQAa7zhrb2SgxiVgY5Ud2viHm"></div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" name="submit">Login</button>
+                <button type="submit" class="btn btn-primary"  id= "submit" name="submit">Login</button>
             </div>
             {% endblock %}
