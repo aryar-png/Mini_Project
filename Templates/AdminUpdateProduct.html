@@ -25,7 +25,14 @@
                         <a href="/AdminViewSeller" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-map-marker-alt me-2"></i>Seller</a>
                             <a href="/AdminViewsales" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                                class="fas fa-map-marker-alt me-2"></i>Sales</a>
+                                class="fas fa-map-marker-alt me-2"></i>Sales Details</a>
+                                <a href="/AdminSellerReport" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                                    class="fas fa-map-marker-alt me-2"></i>Seller Sales Report</a>
+                                    <a href="/AdminCategoryReport" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                                        class="fas fa-map-marker-alt me-2"></i>Category report</a>
+                                    <a href="/AdminViewProductreport" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                                        class="fas fa-map-marker-alt me-2"></i>Sales Report</a>
+                                
                 <a href="/AdminViewFeedback" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-chart-line me-2"></i>Feedback</a>
                 <a href="/AdminAddCategory" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
@@ -34,10 +41,10 @@
                         class="fas fa-shopping-cart me-2"></i>Subcategory</a>
                 <a href="/AdminAddProduct" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-gift me-2"></i>Products</a>
-                <a href="/AdminViewProduct" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                <a href="/AdminViewProduct" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active"><i
                         class="fas fa-comment-dots me-2"></i>View Product</a>
-                <a href="/AdminAddEvents" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-map-marker-alt me-2"></i>Events</a>
+                <!-- <a href="/AdminAddEvents" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                        class="fas fa-map-marker-alt me-2"></i>Events</a> -->
                         <!-- <a href="/AdminAddEventproduct" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-map-marker-alt me-2"></i>Event products</a> -->
                             <a href="/AdminViewMyBooking" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
@@ -157,14 +164,19 @@
                      </tr>
                      <tr>
                  <tr>
-                    <td class="py-3"><label>Old Quantity</label></td>
-                    <td><input type="number" value="{{d.8}}" name="qty" class="textbox" readonly>
+                    <td class="py-3"><label>Old Price</label></td>
+                    <td><input type="number" value="{{d.6}}" name="qty" class="textbox" readonly>
                         <span class="text-danger">Not Editable</span></td>
                  </tr>
                  <tr>
                     <td class="py-3"><label>New Quantity</label></td>
                     <td><input type="number" value="{{d.8}}" name="qty" min="1" id="qty" onkeyup="val_qty_amt(this)" class="textbox">
                         <span id="error_qty"></span></td>
+                 </tr>
+                 <tr>
+                    <td class="py-3"><label>Old Quality</label></td>
+                    <td><input type="number" value="{{d.8}}" name="qty" class="textbox" readonly>
+                        <span class="text-danger">Not Editable</span></td>
                  </tr>
                  <tr>
                   <td class="py-3"><label>Image</label></td>

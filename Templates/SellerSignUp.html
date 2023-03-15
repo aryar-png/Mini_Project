@@ -5,207 +5,212 @@
 </div>
 <div class="form-body form-body-info">
 	<h1 style="font-size: x-large;">REGISTER</h1>
-	<form  method="post">
-		{% csrf_token %}
+    <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-		<div class="form-group valid-form">
-			<input type="text" class="form-control" id="inputName" title="Alphabets only" name="cname"
-				pattern="[a-zA-Z]+" onchange="textValidator(this)" placeholder="Name" alert="Only Alhabets are Allowed"
-				required="">
-			<span class="error-msg" id="error"></span>
+        <div class="form-group valid-form">
+            <input type="text" class="form-control" id="inputName" title="Alphabets only" name="cname"
+                pattern="[a-z A-Z]+" onchange="textValidator(this)" placeholder="Name" alert="Only Alhabets are Allowed"
+                required="">
+            <span class="error-msg" id="error"></span>
 
-			<!-- Address -->
-			<input type="text" class="form-control" id="inputName" pattern="[a-zA-Z]+" onchange="addressValidator(this)"
-				name="address" placeholder="Address" required="">
-			<span class="error-msg" id="error_address"></span>
+            <!-- Address -->
+            <input type="text" class="form-control" id="inputName" pattern="[a-z A-Z]+" onchange="addressValidator(this)"
+                name="address" placeholder="Address" required="">
+            <span class="error-msg" id="error_address"></span>
 
-			<!-- Pincode -->
-			<input type="text" class="form-control" id="inputName" pattern="[789]{0-9}{9}" minlength="6" maxlength="6"
-				onchange="pincodeValidator(this)" name="pincode" placeholder="Pincode" required="">
-			<span class="error-msg" id="error_pincode"></span>
-		</div>
+            <!-- Pincode -->
+            <input type="text" class="form-control" id="inputName" pattern="[789]{0-9}{9}" minlength="6" maxlength="6"
+                onchange="pincodeValidator(this)" name="pincode" placeholder="Pincode" required="">
+            <span class="error-msg" id="error_pincode"></span>
+        </div>
 
-		<div class="form-group">
-			<div class="radio">
-				<label>
-					<input type="radio" name="gender" value="Male" required="">
-					Male
-				</label>
-			</div>
+        <!-- <div class="form-group">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="gender" value="Male" required="">
+                    Male
+                </label>
+            </div>
 
-			<div class="radio">
-				<label>
-					<input type="radio" name="gender" value="Female" required="">
-					Female
-				</label>
-			</div>
-		</div>
-		<input type="text" class="form-control" id="inputName" name="age" placeholder="Age" required="">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="gender" value="Female" required="">
+                    Female
+                </label>
+            </div>
+        </div>
+          -->
 
-		<!-- District -->
-		<input type="text" class="form-control" id="inputName" name="district" placeholder="District" required=""
-			pattern="[a-zA-Z]+" onchange="districtValidator(this)">
-		<span class="error-msg" id="error_district"></span>
+        <!-- District -->
+        <input type="text" class="form-control" id="inputName" name="district" placeholder="District" required=""
+            pattern="[a-zA-Z]+" onchange="districtValidator(this)">
+        <span class="error-msg" id="error_district"></span>
 
-		<!-- Location -->
-		<input type="text" class="form-control" id="inputName" name="location" placeholder="Location" required=""
-			pattern="[a-zA-Z]+" onchange="locationValidator(this)">
-		<span class="error-msg" id="error_location"></span>
+        <!-- Location -->
+        <input type="text" class="form-control" id="inputName" name="location" placeholder="Location" required=""
+            pattern="[a-zA-Z]+" onchange="locationValidator(this)">
+        <span class="error-msg" id="error_location"></span>
 
-		<div class="form-group has-feedback">
-			<!--Email-->
-			<input type="email" class="form-control" name="Email" placeholder="Email"
-				data-error="That email address is invalid" required=""
-				pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" onchange="emailValidator(this)">
-			<span class="error-msg" id="error_email"></span>
+        <div class="form-group has-feedback">
+            <!--Email-->
+            <input type="email" class="form-control" name="Email" placeholder="Email"
+                data-error="That email address is invalid" required=""
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" onchange="emailValidator(this)">
+            <span class="error-msg" id="error_email"></span>
 
-			<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-			<span class="help-block with-errors">Please enter a valid email address</span>
-		</div>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <span class="help-block with-errors">Please enter a valid email address</span>
+        </div>
 
-		<input type="text" class="form-control" id="inputName" name="mobile" pattern="[789]{0-9}{9}" minlength="10"
-			maxlength="10" placeholder="Mobile" required="" onchange="mobileValidator(this)">
-		<span class="error-msg" id="error_mobile"></span>
+        <input type="text" class="form-control" id="inputName" name="mobile" pattern="[789]{0-9}{9}" minlength="10"
+            maxlength="10" placeholder="Mobile" required="" onchange="mobileValidator(this)">
+        <span class="error-msg" id="error_mobile"></span>
 
-		<div class="form-group">
-			<input type="password" data-toggle="validator" data-minlength="6" class="form-control" id="inputPassword"
-				name="Password" placeholder="Password" required=""
-				pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-				onchange="passwordValidator(this)">
-			<span class="error-msg" id="error_password"></span>
-			<span class="help-block">Minimum of 6 characters</span>
-		</div>
+        <div class="form-group">
+            <input type="password" data-toggle="validator" data-minlength="6" class="form-control" id="inputPassword"
+                name="Password" placeholder="Password" required=""
+                pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                onchange="passwordValidator(this)">
+            <span class="error-msg" id="error_password"></span>
+            <span class="help-block">Minimum of 6 characters</span>
+        </div>
+        <input type="text" class="form-control" id="inputName" name="License No:" placeholder="License No:" required="">
+        
+        <label style="color: aliceblue;">Upload File</label>
+        <input style="color: aliceblue;" type="file" name="file" class="textbox">
 
-		<div class="form-group">
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" id="terms" data-error="Before you wreck yourself" required="">
-					I have read and accept terms of use.
-				</label>
-				<div class="help-block with-errors"></div>
-			</div>
-		</div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="terms" data-error="Before you wreck yourself" required="">
+                    I have read and accept terms of use.
+                </label>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
 
-		<div class="form-group">
-			<button type="submit" name="submit" class="btn btn-primary">Submit</button>
-		</div>
-		{% if msg %}
-		<script>
-			alert('{{msg}}')
-		</script>
-		{% endif %}
-	</form>
-</div>
+        <div class="form-group">
+            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        </div>
+        {% if msg %}
+        <script>
+            alert('{{msg}}')
+        </script>
+        {% endif %}
+    </form>
+</div><br>
+<p style="color: aliceblue;">Already Registered ? <a href="/SignIn" class="Sign-in popup-top-anim" style="color:aliceblue;"> Sign In</a> </p>
 
 <script>
-	function textValidator(input) {
-		var re = /^[ a-zA-Z ]+$/;
-		if (!re.test(input.value)) {
-			document.getElementById("error").innerHTML = "Only Alhabets are Allowed";
-			document.getElementById("error").style.color = "red";
-			return false;
-		}
-		else {
-			document.getElementById("error").innerHTML = "";
-			document.getElementById("error").style.color = "";
-		}
-		return true;
-	}
-	function addressValidator(input) {
-		var re = /^[ a-zA-Z ]+$/;
-		if (!re.test(input.value)) {
-			document.getElementById("error_address").innerHTML = "Only Alphabets are Allowed";
-			document.getElementById("error_address").style.color = "red";
-			return false;
-		}
-		else {
-			document.getElementById("error_address").innerHTML = "";
-			document.getElementById("error_address").style.color = "";
-		}
-		return true;
-	}
-	function pincodeValidator(input) {
-		var re = /^[0-9]{6}$/
-		if (!re.test(input.value)) {
-			document.getElementById("error_pincode").innerHTML = "Error pincode ";
-			document.getElementById("error_pincode").style.color = "red";
-			return false;
-		}
-		else {
-			document.getElementById("error_pincode").innerHTML = "";
-			document.getElementById("error_pincode").style.color = "";
-		}
-		return true;
-	}
-	function districtValidator(input) {
-		var re = /^[ a-zA-Z ]+$/;
-		if (!re.test(input.value)) {
-			document.getElementById("error_district").innerHTML = "Only Alphabets are Allowed";
-			document.getElementById("error_district").style.color = "red";
-			return false;
-		}
-		else {
-			document.getElementById("error_district").innerHTML = "";
-			document.getElementById("error_district").style.color = "";
-		}
-		return true;
-	}
+    function textValidator(input) {
+        var re = /^[ a-zA-Z ]+$/;
+        if (!re.test(input.value)) {
+            document.getElementById("error").innerHTML = "Only Alhabets are Allowed";
+            document.getElementById("error").style.color = "red";
+            return false;
+        }
+        else {
+            document.getElementById("error").innerHTML = "";
+            document.getElementById("error").style.color = "";
+        }
+        return true;
+    }
+    function addressValidator(input) {
+        var re = /^[ a-zA-Z ]+$/;
+        if (!re.test(input.value)) {
+            document.getElementById("error_address").innerHTML = "Only Alphabets are Allowed";
+            document.getElementById("error_address").style.color = "red";
+            return false;
+        }
+        else {
+            document.getElementById("error_address").innerHTML = "";
+            document.getElementById("error_address").style.color = "";
+        }
+        return true;
+    }
+    function pincodeValidator(input) {
+        var re = /^[0-9]{6}$/
+        if (!re.test(input.value)) {
+            document.getElementById("error_pincode").innerHTML = "Error pincode ";
+            document.getElementById("error_pincode").style.color = "red";
+            return false;
+        }
+        else {
+            document.getElementById("error_pincode").innerHTML = "";
+            document.getElementById("error_pincode").style.color = "";
+        }
+        return true;
+    }
+    function districtValidator(input) {
+        var re = /^[ a-zA-Z ]+$/;
+        if (!re.test(input.value)) {
+            document.getElementById("error_district").innerHTML = "Only Alphabets are Allowed";
+            document.getElementById("error_district").style.color = "red";
+            return false;
+        }
+        else {
+            document.getElementById("error_district").innerHTML = "";
+            document.getElementById("error_district").style.color = "";
+        }
+        return true;
+    }
 
-	function locationValidator(input) {
-		var re = /^[ a-zA-Z ]+$/;
-		if (!re.test(input.value)) {
-			document.getElementById("error_location").innerHTML = "Only Alphabets are Allowed";
-			document.getElementById("error_location").style.color = "red";
-			return false;
-		}
-		else {
-			document.getElementById("error_location").innerHTML = "";
-			document.getElementById("error_location").style.color = "";
-		}
-		return true;
-	}
+    function locationValidator(input) {
+        var re = /^[ a-z A-Z ]+$/;
+        if (!re.test(input.value)) {
+            document.getElementById("error_location").innerHTML = "Only Alphabets are Allowed";
+            document.getElementById("error_location").style.color = "red";
+            return false;
+        }
+        else {
+            document.getElementById("error_location").innerHTML = "";
+            document.getElementById("error_location").style.color = "";
+        }
+        return true;
+    }
 
-	function emailValidator(input) {
-		var re = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
-		if (!re.test(input.value)) {
-			document.getElementById("error_email").innerHTML = "message";
-			document.getElementById("error_email").style.color = "red";
-			return false;
-		}
-		else {
-			document.getElementById("error_email").innerHTML = "";
-			document.getElementById("error_email").style.color = "";
-		}
-		return true;
-	}
+    function emailValidator(input) {
+        var re = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+        if (!re.test(input.value)) {
+            document.getElementById("error_email").innerHTML = "message";
+            document.getElementById("error_email").style.color = "red";
+            return false;
+        }
+        else {
+            document.getElementById("error_email").innerHTML = "";
+            document.getElementById("error_email").style.color = "";
+        }
+        return true;
+    }
 
-	function mobileValidator(input) {
-		var re = /^\+?[1-9][0-9]{7,14}$/;
-		if (!re.test(input.value)) {
-			document.getElementById("error_mobile").innerHTML = "message";
-			document.getElementById("error_mobile").style.color = "red";
-			return false;
-		}
-		else {
-			document.getElementById("error_mobile").innerHTML = "";
-			document.getElementById("error_mobile").style.color = "";
-		}
-		return true;
-	}
+    function mobileValidator(input) {
+        var re = /^\+?[1-9][0-9]{7,14}$/;
+        if (!re.test(input.value)) {
+            document.getElementById("error_mobile").innerHTML = "message";
+            document.getElementById("error_mobile").style.color = "red";
+            return false;
+        }
+        else {
+            document.getElementById("error_mobile").innerHTML = "";
+            document.getElementById("error_mobile").style.color = "";
+        }
+        return true;
+    }
 
-	function passwordValidator(input) {
-		var re = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/;
-		if (!re.test(input.value)) {
-			document.getElementById("error_password").innerHTML = "message";
-			document.getElementById("error_password").style.color = "red";
-			return false;
-		}
-		else {
-			document.getElementById("error_password").innerHTML = "";
-			document.getElementById("error_password").style.color = "";
-		}
-		return true;
-	}
+    function passwordValidator(input) {
+        var re = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/;
+        if (!re.test(input.value)) {
+            document.getElementById("error_password").innerHTML = "message";
+            document.getElementById("error_password").style.color = "red";
+            return false;
+        }
+        else {
+            document.getElementById("error_password").innerHTML = "";
+            document.getElementById("error_password").style.color = "";
+        }
+        return true;
+    }
 
 
 </script>

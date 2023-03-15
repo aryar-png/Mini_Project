@@ -25,7 +25,14 @@
                         <a href="/AdminViewSeller" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-map-marker-alt me-2"></i>Seller</a>
                             <a href="/AdminViewsales" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active"><i
-                                class="fas fa-map-marker-alt me-2"></i>Sales</a>
+                                class="fas fa-map-marker-alt me-2"></i>Sales Details</a>
+                                <a href="/AdminSellerReport" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                                    class="fas fa-map-marker-alt me-2"></i>Seller Sales Report</a>
+                                    <a href="/AdminCategoryReport" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                                        class="fas fa-map-marker-alt me-2"></i>Category report</a>
+                                    <a href="/AdminViewProductreport" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                                        class="fas fa-map-marker-alt me-2"></i>Sales Report</a>
+                                
                 <a href="/AdminViewFeedback" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-chart-line me-2"></i>Feedback</a>
                 <a href="/AdminAddCategory" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
@@ -36,10 +43,10 @@
                         class="fas fa-gift me-2"></i>Products</a>
                 <a href="/AdminViewProduct" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-comment-dots me-2"></i>View Product</a>
-                <a href="/AdminAddEvents" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-map-marker-alt me-2"></i>Events</a>
-                <a href="/AdminAddEventProduct" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-map-marker-alt me-2"></i>Event products</a>
+                <!-- <a href="/AdminAddEvents" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                        class="fas fa-map-marker-alt me-2"></i>Events</a> -->
+                <!-- <a href="/AdminAddEventProduct" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-map-marker-alt me-2"></i>Event products</a> -->
                             <a href="/AdminViewMyBooking" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                                 class="fas fa-map-marker-alt me-2"></i>View Booking</a>
                 <a href="/" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
@@ -137,9 +144,16 @@
 </body>
 </html>
 
-
-
 {% block body %}
+
+<!--   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
 <form action="#" method="post" >
 {% csrf_token %}
 <div class="row my-5">
@@ -175,4 +189,47 @@
 </div>
 <!-- /#page-content-wrapper -->
 </div>
+
+<style> 
+    table{
+        width:100%;
+    }
+    #example_filter{
+        float:right;
+    }
+    #example_paginate{
+        float:right;
+    }
+    label {
+        display: inline-flex;
+        margin-bottom: .5rem;
+        margin-top: .5rem;
+       
+    }
+    </style>
+    
+    <script>
+        $(document).ready(function() {
+        $('#example').DataTable(
+            
+             {     
+    
+          "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
+            "iDisplayLength": 5
+           } 
+            );
+    } );
+    
+    
+    function checkAll(bx) {
+      var cbs = document.getElementsByTagName('input');
+      for(var i=0; i < cbs.length; i++) {
+        if(cbs[i].type == 'checkbox') {
+          cbs[i].checked = bx.checked;
+        }
+      }
+    
+    }
+    </script>
+    
 {% endblock %}

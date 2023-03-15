@@ -25,6 +25,12 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `cart`
 --
 
+-- Stand-in structure for view `myview`
+--
+CREATE TABLE IF NOT EXISTS `myview` (`pid` int(11),`tqty` decimal(32,0));
+-- 
+-- 
+
 CREATE TABLE IF NOT EXISTS `cart` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cid` int(11) NOT NULL,
@@ -281,3 +287,12 @@ INSERT INTO `subcategory` (`sid`, `catid`, `sname`) VALUES
 (8, 5, 'Beverages'),
 (9, 5, 'Sweets'),
 (10, 5, 'Chocolates');
+
+
+
+--
+-- Structure for view `myview`
+--
+DROP TABLE IF EXISTS `myview`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `myview` AS select `customer_order`.`pid` AS `pid`,sum(`customer_order`.`p_qty`) AS `tqty` from `customer_order` group by `customer_order`.`pid`;

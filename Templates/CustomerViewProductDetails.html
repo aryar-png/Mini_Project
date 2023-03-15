@@ -1,346 +1,540 @@
 <!--A Design by W3layouts
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE html>
-<html>
-<head>
-<title>Fab Magics</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Biruang Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- bootstarp-css -->
-<link href="../static/shopping/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<!--// bootstarp-css -->
-<!-- css -->
-<link rel="stylesheet" href="../static/shopping/css/style.css" type="text/css" media="all" />
-<!--// css -->
-<!--js-->
-<script src="../static/shopping/js/jquery.min.js"></script>
-<!--/js-->
-<!--fonts-->
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
-<!--/fonts-->
-<!-- dropdown -->
-<script src="../static/shopping/js/jquery.easydropdown.js"></script>
-<link href="../static/shopping/css/nav.css" rel="stylesheet" type="text/css" media="all"/>
-<script src="../static/shopping/js/scripts.js" type="text/javascript"></script>
-<link rel="stylesheet" href="../static/shopping/css/etalage.css">
-<script src="../static/shopping/js/jquery.etalage.min.js"></script>
-<script>
-			jQuery(document).ready(function($){
-
-				$('#etalage').etalage({
-					thumb_image_width: 300,
-					thumb_image_height: 400,
-					source_image_width: 800,
-					source_image_height: 1000,
-					show_hint: true,
-					click_callback: function(image_anchor, instance_id){
-						alert('Callback example:\nYou clicked on an image with the anchor: "'+image_anchor+'"\n(in Etalage instance: "'+instance_id+'")');
-					}
-				});
-
-			});
-		</script>
-</head>
-<body>
-        <form method="POST">
-                {% csrf_token %} 
-	<!-- header -->
-	<div class="header">
-		<!-- container -->
-		<div class="container">
-			<!-- header-top -->
-			<div class="header-top">
-				<div class="header-logo">
-					<h1 style="color: white;"><b>Fab Magics</b></h1>
-				</div>
-				<div class="header-right">
-					  
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<!-- //header-top -->
-			<div class="top-nav">
-				<span class="menu"><img src="../static/shopping/images/menu.png" alt=""></span>
-				<ul class="nav">
-						           
-					<li><a href="/CustomerHome" style="color: white;">Home</a></li>            
-					<li><a href="/CustomerSearchProduct" style="color: white;">Shopping</a></li>
-                    <li><a href="/CustomerViewCart" style="color: white;">Cart</a></li> 
-                    <!-- <li><a href="/CustomerViewMyBooking" style="color: white;">My Booking</a></li> -->
-                   
-				</ul>
-			</div>
-			<div class="search">
-				
-			</div>
-			<div class="clearfix"> </div>
-			<!-- script-for-menu -->
-		 <script>
-				$("span.menu").click(function(){
-					$(" ul.nav").slideToggle("slow" , function(){
-					});
-				});
-		 </script>
-		</div>
-		<!-- //container -->
-	</div>
-	<!-- //header -->
-	<!-- single -->
-	<div class="single">
-		<!-- container -->
-		<div class="container">
-			<div class="single-grids">
-				<div class="col-md-9">
-					<div class="single-left-left">
-						<ul id="etalage" class="etalage" style="display: block; width: 300px; height: 533px;">
-                                {% for d in data %}
-						    <li class="etalage_thumb thumb_4 etalage_thumb_active" style="display: list-item; opacity: 1; background-image: none;">
-								<img class="etalage_thumb_image" src="../static{{d.5}}" style=" width: 300px; height: 400px; opacity: 1;">
-								<img class="etalage_source_image" src="../static{{d.5}}">
-							</li>
-						 <div class="clearfix"></div>		
-					</div>
-					<div class="single-left-right">
-						<div class="single-left-info">
-							<h3>{{d.3}}</h3>
-							
-							<p>{{d.6}} ₹ </p>
-						</div>
-						{% endfor %}
-						<form method="POST">
-							<input type="text" name="qty" onkeyup="val_qty_amt(this)" placeholder="Enter quantity" class="textbox"></td>
-                    <span id="error_qty"></span>
-							<br/>
-							<br/>
-							<div class="select-size">
-								
-								<div class="buy-now">
-										
-										<input type="submit" value="ADD TO CART" class="acount-btn">
-		
-								</div>
-						</form>
-							<div class="wishlist">
-								
-								<!-- pop-up-box -->
-								<script type="text/javascript" src="../static/shopping/js/modernizr.custom.min.js"></script>    
-								<link href="../static/shopping/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
-								<script src="../static/shopping/js/jquery.magnific-popup.js" type="text/javascript"></script>
-								<!--//pop-up-box -->
-								<div id="small-dialog2" class="mfp-hide">
-									<h3>Create Account</h3> 
-									<div class="social-sits">
-										<ul>
-											<li><a class="fb" href="#">Connect with Facebook</a></li>
-											<li><a class="fb google" href="#">Connect with Google</a></li>
-										</ul>
-									</div>
-									<div class="signup">
-										<form>
-											<input type="text" class="email" placeholder="Email" required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?" />
-											<input type="password" placeholder="Password" required="required" pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
-											<input type="text" class="email" placeholder="Mobile Number" maxlength="10" pattern="[1-9]{1}\d{9}" title="Enter a valid mobile number" />
-											<input type="submit"  value="Sign In"/>
-										</form>
-									</div>
-									<div class="clearfix"> </div>
-								</div>	
-								<script>
-										$(document).ready(function() {
-										$('.popup-with-zoom-anim').magnificPopup({
-											type: 'inline',
-											fixedContentPos: false,
-											fixedBgPos: true,
-											overflowY: 'auto',
-											closeBtnInside: true,
-											preloader: false,
-											midClick: true,
-											removalDelay: 300,
-											mainClass: 'my-mfp-zoom-in'
-										});
-																										
-										});
-								</script>	
-							</div>
-							<div class="clearfix"> </div>
-							<!-- <div class="free">
-								<p>20 day returns Free Delivery *</p>
-							</div> -->
-							<!-- <div class="delivery">
-								<a class="play-icon popup-with-zoom-anim" href="#small-dialog">Check delivery options</a>
-								<div id="small-dialog" class="mfp-hide">
-									<h3>DELIVERY TIME & COD AVAILABILITY</h3>
-									<div class="social-sits">
-										<p>Please enter your PIN Code to check delivery time & Cash On Delivery availability</p>
-									</div>
-									<div class="signup">
-											<form>
-												<input type="text" class="email" placeholder="Pin" maxlength="6" required="required" pattern="[1-9]{1}\d{5}"/>
-												<input type="submit"  value="Submit"/>
-											</form>
-									</div>
-									<div class="clearfix"> </div>
-								</div>
-							</div> -->
-						</div>
-					</div>
-					{% for d in data %}
-					<div class="clearfix"> </div>
-					<div class="product-details">
-						<h3>PRODUCT DETAILS</h3>
-						<p>{{d.4}}
-						</p>
-					</div>
-					<div class="related">
-						
-					</div>
-                </div>
-                {% endfor %}
-				<div class="col-md-3 side-bar">
-					<div class="categories">
-                        <h3>Categories</h3>
-                        {% for d1 in data1 %}
-						<ul>
-							<li><a href="/CustomerViewProCategory/?id={{d1.1}}">{{d1.1}}</a></li>
-                        </ul>
-                        {% endfor %}
-                        <h3>Subcategory</h3>
-                        {% for d2 in data2 %}
-						<ul>
-							<li><a href="/CustomerViewProSubCategory/?id={{d2.0}}">{{d2.2}}</a></li>
-                        </ul>
-                        {% endfor %}
-							<h3>Events</h3>
-							{% for d3 in data3 %}
-							<ul>
-								<li><a href="/CustomerViewProSubCategory/?id={{d2.0}}">{{d3.1}}</a></li>
-								
-							</ul>
-							{% endfor %}
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-		<!-- //container -->
-	</div>
-	<!-- //single -->
-	<!-- footer -->
-	<div class="footer">
-		<!-- container -->
-		<div class="container">
-			<div class="col-md-3 stores-grid">
-				<div class="stores">
-					<h3>Our Stores</h3>
-					<ul>
-						<li>Feel free to visit our stores or contact us.</li>
-						<li>1401 South Grand Avenue </li>
-						<li>Los Angeles, CA 90015 </li>
-						<li>(213) 748-2411</li>
-
-						<span>
-						<li class="drive">100 Fairview Drive </li>
-						<li>Franklin, VA 23851</li> 
-						<li>(757) 569-6100 </li>
-						</span>
-					</ul>
-				</div>
-				<div class="social-icons white-icons">
-					<ul>
-						<li><a href="#" class="facebook"></a></li>
-						<li><a href="#" class="twitter"></a></li>
-						<li><a href="#" class="chrome"></a></li>
-						<li><a href="#" class="vimeo"></a></li>
-						<li><a href="#" class="rss"></a></li>
-				</div>
-			</div>
-			<div class="col-md-3 blog">
-				<h3>Blog posts</h3>
-				<a href="#">Justin Bieber confirmed that he is gay.</a>
-				<p>Lorem ipsum dolor sit amet, consectetur
-					adipiscing elit. Donec sed auctor elit.
-				</p>
-				<a href="#">New sexy sport clothes are here!</a>
-				<p>Lorem ipsum dolor sit amet, consectetur
-					adipiscing elit. Donec sed auctor elit.
-				</p>
-				<a href="#">Summer sales are coming!</a>
-				<p>Lorem ipsum dolor sit amet, consectetur
-					adipiscing elit. Donec sed auctor elit.
-				</p>
-			</div>
-			<div class="col-md-3 support">
-				<h3>Support</h3>
-				<div class="support-grids">
-					<div class="support-left">
-						<ul>
-							<li><a href="#">Terms & Conditions</a></li>
-							<li><a href="#">FAQ</a></li>
-							<li><a href="#">Payment</a></li>
-							<li><a href="#">Refunds</a></li>
-							<li><a href="#">Track Order</a></li>
-							<li><a href="#">Services</a></li>
-							<li><a href="#">Privacy & Security</a></li>
-							<li><a href="#">Careers</a></li>
-							<li><a href="#">Press</a></li>
-							<li><a href="#">Corporate Information</a></li>
-						</ul>
-					</div>
-					<div class="support-left support-right">
-						<ul>
-							<li><a href="#">Sizing</a></li>
-							<li><a href="#">Ordering</a></li>
-							<li><a href="#">Shipping</a></li>
-							<li><a href="#">Return Policy</a></li>
-							<li><a href="#">Affiliates</a></li>
-							<li><a href="#">Find A Store </a></li>
-							<li><a href="#">Site Map</a></li>
-							<li><a href="#">Sign Up & Save</a></li>
-						</ul>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-			</div>
-			<div class="col-md-3 contact">
-				
-			</div>
-			<div class="clearfix"> </div>
-			<div class="copyright">
-				<p>Template by <a href="http://w3layouts.com/">W3layouts</a></p>
-			</p>
-		</div>
-		<!-- // container -->
-	</div>
-    <!-- //footer -->
-    </div>
-	</form>
-	{% if msg %}
-<script>
-alert("{{msg}}")
- function val_qty_amt(amnt)
-        {
-            if(amnt.value=="")
-            {
-                document.getElementById("error_qty").innerHTML="Enter valid amount";
-                document.getElementById("error_qty").style.color = "red";
-                document.getElementById('add').setAttribute('disabled',true);
+   Author: W3layout
+   Author URL: http://w3layouts.com
+   License: Creative Commons Attribution 3.0 Unported
+   License URL: http://creativecommons.org/licenses/by/3.0/
+   -->
+   <!DOCTYPE html>
+   <html lang="zxx">
+      <head>
+         <title>Fab Magics | Home :: w3layouts</title>
+         <!--meta tags -->
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="keywords" content="Toys Shop Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+            Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+         <script>
+            addEventListener("load", function () {
+               setTimeout(hideURLbar, 0);
+            }, false);
+            
+            function hideURLbar() {
+               window.scrollTo(0, 1);
             }
-            else{
-                document.getElementById("error_qty").innerHTML="";
-                document.getElementById("error_qty").style.color = "red";
-                document.getElementById('add').removeAttribute('disabled',true);
-            }
-        }  
-        
-</script>
-{% endif %}
-</body>
-</html>
+         </script>
+         <!--//meta tags ends here-->
+         <!--booststrap-->
+         <link href="../static/sample/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+         <!--//booststrap end-->
+         <!-- font-awesome icons -->
+         <link href="../static/sample/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+         <!-- //font-awesome icons -->
+         <!--Shoping cart-->
+         <link rel="stylesheet" href="../static/sample/css/shop.css" type="text/css" />
+         <!--//Shoping cart-->
+         <link rel="stylesheet" type="text/css" href="../static/sample/css/jquery-ui1.css">
+         <link href="../static/sample/css/easy-responsive-tabs.css" rel='stylesheet' type='text/css' />
+         <link rel="stylesheet" href="../static/sample/css/flexslider.css" type="text/css" media="screen" />
+         <!--stylesheets-->
+         <link href="../static/sample/css/style.css" rel='stylesheet' type='text/css' media="all">
+         <!--//stylesheets-->
+         <link href="//fonts.googleapis.com/css?family=Sunflower:500,700" rel="stylesheet">
+         <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+      </head>
+      <body>
+         <!--headder-->
+         <div class="header-outs" id="home">
+         <div class="header-bar">
+            <div class="info-top-grid">
+               <div class="info-contact-agile">
+                 
+               </div>
+            </div>
+               <div class="container-fluid">
+                  <div class="hedder-up row">
+                     <div class="col-lg-3 col-md-3 logo-head">
+                        <h1><a class="navbar-brand" href="index.html">Fab Magics</a></h1>
+                     </div>
+                     <div class="col-lg-5 col-md-6 search-right">
+                        <form class="form-inline my-lg-0" method="post" action="{%url 'CustomerSearchProduct' %}">
+                            {% csrf_token %}
+                            <input class="form-control mr-sm-2" name="t1" type="search" placeholder="Search">
+                            <button class="btn" type="submit">Search</button>
+                         </form>
+                     </div>
+                     <div class="col-lg-4 col-md-3 right-side-cart">
+                        <div class="cart-icons">
+                           <ul>
+                              <li>
+                                 <span class="far fa-heart"></span>
+                              </li>
+                              <!-- <li>
+                                 <a href="/myprofile"><button type="button" data-target="#exampleModal"> <span class="far fa-user"></span></button></a>
+                              </li> -->
+                              <li class="toyscart toyscart2 cart cart box_1">
+                                 <!-- <form action="#" method="post" class="last">
+                                   <input type="hidden" name="cmd" value="_cart">
+                                   <input type="hidden" name="display" value="1">
+                                   <button class="top_toys_cart" type="submit" name="submit" value=""> -->
+                                    <a href="/CustomerViewCart"><span class="fas fa-cart-arrow-down"><sup> {{dataa}} </sup></span></a>
+                                   </button>
+                                 </form>
+                                 <li>
+                                    <a href="/myprofile"><button type="button" data-target="#exampleModal"> <span class="far fa-user"></span></button></a>
+                                   </li>
+                                 <li>
+                                    <p> Welcome {{name}} </p>
+                                  </li>
+                               </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            <nav class="navbar navbar-expand-lg navbar-light">
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                 
+                        
+				<ul class="navbar-nav ">
+					<li class="nav-item">
+					   <a class="nav-link" href="/CustomerHome">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item active">
+						<a href="/CustomerSearchProduct" class="nav-link">Shop Now</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Products
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							{% for d2 in data2 %}
+						   <a class="nav-link " href="/CustomerViewProSubCategory/?id={{d2.0}}">{{d2.2}}</a>
+						   {% endfor %}
+						  
+						</div>
+					 </li>
+					<li class="nav-item">
+						<a href="/CustomerAddFeedback" class="nav-link">Feedback</a>
+					</li>
+					<li class="nav-item">
+					   <a href="/CustomerViewMyBooking" class="nav-link">My order</a>
+					</li>
+               <!-- <li class="nav-item">
+                  <a href="/myprofile" class="nav-link">My Profile</a>
+                </li> -->
+					<li class="nav-item">
+					   <a href="/" class="nav-link">Logout</a>
+					</li>
+					
+				 </ul>
+               </div>
+            </nav>
+         </div>
+        </div>
+         <!--//headder-->
+         <!-- banner -->
+         <div class="inner_page-banner one-img">
+         </div>
+         <!--//banner -->
+         <!-- short -->
+         <div class="using-border py-3">
+            <div class="inner_breadcrumb  ml-4">
+               <ul class="short_ls">
+                  <li>
+                     <a href="/CustomerHome">Home</a>
+                     <span>/ </span>
+                  </li>
+                  <li>Product Details</li>
+               </ul>
+            </div>
+         </div>
+         <!-- //short-->
+         <!--//banner -->
+         <!--/shop-->
+         <section class="banner-bottom py-lg-5 py-3">
+            <div class="container">
+               {% for d in data %}
+               <div class="inner-sec-shop pt-lg-4 pt-3">
+                  <div class="row">
+                     <div class="col-lg-4 single-right-left ">
+                        <div class="grid images_3_of_2">
+                           <div class="flexslider1">
+                              <ul class="slides">
+                                 <li data-thumb="images/f2.jpg">
+                                    <div class="thumb-image"> <img src="../static{{d.5}}" data-imagezoom="true" class="img-fluid" alt=" "> </div>
+                                 </li>
+                                 <!-- <li data-thumb="images/f1.jpg">
+                                    <div class="thumb-image"> <img src="../static{{d.12}}" data-imagezoom="true" class="img-fluid" alt=" "> </div>
+                                 </li>
+                                 <li data-thumb="images/f3.jpg">
+                                    <div class="thumb-image"> <img src="../static{{d.13}}" data-imagezoom="true" class="img-fluid" alt=" "> </div>
+                                 </li> -->
+                              </ul>
+                              <div class="clearfix"></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-lg-8 single-right-left simpleCart_shelfItem">
+                        <h3>{{d.3}}</h3>
+                        <p><span class="item_price">{{d.6}} ₹</span>
+                           <del>$1,199</del>
+                        </p>{{d.4}}
+                        <div class="rating1">
+                           <ul class="stars">
+                              <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+                              <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+                              <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+                              <li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
+                              <li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
+                           </ul>
+                        </div>
+                        {% endfor %}
+                        <div class="description">
+                           <!-- <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elPellentesque vehicula augue eget.
+                              Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
+                               ex ea commodi consequatur? Quis autem vel eum iure reprehenderit.
+
+                           </h5> -->
+                           
+                        </div>
+                        <!-- <div class="color-quality">
+                           <div class="color-quality-right">
+                              <h5>Size :</h5>
+                              <select id="country1" onchange="change_country(this.value)" class="frm-field required sect">
+                                 <option value="null">2 Feet</option>
+                                 <option value="null">3 Feet</option>
+                                 <option value="null">4 Feet</option>
+                                 <option value="null">5 Feet</option>
+                              </select>
+                           </div>
+                        </div> -->
+                        <div class="occasional">
+                          
+                        </div>
+                        <div class="occasion-cart">
+                           <div class="toys single-item singlepage">
+                              <form method="POST">
+                                 {% csrf_token %}
+                                 <label>Quantity</label>
+                                 <input type="number" name="qty" onkeyup="val_qty_amt(this)" min="1" max="{{data.0.8}}" class="textbox"></td>
+                                 <span id="error_qty"></span>
+                  
+                                 <br/>
+                                 <br/>
+                                 <div class="select-size">
+                                    
+                                    <div class="buy-now">
+                                          
+                                       <input type="submit" value="ADD TO CART" name="cart" class="btn btn-danger">
+                  
+                                    </div>
+                                    {% if data.0.8 == 0 %}
+                                    
+                                    <h2 class="text-danger">Out of stock</h2>
+                        
+                                    {% endif %}
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                        
+                           
+                     </div>
+                     <div class="clearfix"> </div>
+                     <!--/tabs-->
+                     <div class="responsive_tabs w-50">
+                        <div id="horizontalTab">
+                           <ul class="resp-tabs-list">
+      
+                              <li>Reviews</li>
+                              
+                             
+                           </ul>
+                           <div class="resp-tabs-container">
+                             
+                              <div class="tab2">
+                                 <div class="single_page">
+                                    <div class="bootstrap-tab-text-grids">
+                                       {% for r in review %}
+                                       <div class="bootstrap-tab-text-grid">
+                                          <div class="bootstrap-tab-text-grid-left">
+                                             <img src="../static/dashboard/images/user.png" alt=" " class="img-fluid">
+                                          </div>
+                                          <div class="bootstrap-tab-text-grid-right">
+                                             <ul>
+                                                <li ><a href="#">{{r.4}}</a></li>
+                                                <!-- <li><a href="#"><i class="fa fa-reply-all" aria-hidden="true"></i> Reply</a></li> -->
+                                             </ul>
+                                             <p style="width:900px;">{{r.1}}
+                                             </p>
+                                          </div>
+                                          <div class="clearfix"> </div>
+                                       </div>
+                                       {% endfor %}
+                                       <div class="add-review">
+                                          <h4>add a review</h4>
+                                          <form action="#" method="post">
+                                             {% csrf_token %}
+                                             <div class="row"> 
+                                                <div class="col-md-6">
+                                                   <!-- <input type="text" name="Name" required="">
+                                                </div> -->
+                                                <!-- <div class="col-md-6">
+                                                   <input type="email" name="Email" required="">
+                                                </div> -->
+                                             </div>
+                                             <textarea name="Message" required=""></textarea>
+                                             <input type="submit" class="btn btn-success" name="review" value="SEND">
+                                          
+                                          </form>
+                                         
+                                       </div>
+                                       
+                                    </div>
+                                 </div>
+                              </div>
+                              <!-- <div class="tab3"> -->
+                                 <!-- <div class="single_page"> -->
+                                    <!-- <h6>Teddy Bear(Blue)</h6>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elPellentesque vehicula augue eget nisl ullamcorper, molestie
+                                       blandit ipsum auctor. Mauris volutpat augue dolor.Consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                                       ut lab ore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. labore et dolore
+                                       magna aliqua.
+                                    </p>
+                                    <p class="para">Lorem ipsum dolor sit amet, consectetur adipisicing elPellentesque vehicula augue eget nisl ullamcorper, molestie
+                                       blandit ipsum auctor. Mauris volutpat augue dolor.Consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                                       ut lab ore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. labore et dolore
+                                       magna aliqua.
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>-->
+                        </div>
+                     </div>
+                     </div>
+                     <!--//tabs-->
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!--subscribe-address-->
+         <section class="subscribe">
+            <div class="container-fluid">
+            <div class="row">
+               <div class="col-lg-6 col-md-6 map-info-right px-0">
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3150859.767904157!2d-96.62081048651531!3d39.536794757966845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1408111832978"> </iframe>
+               </div>
+               <div class="col-lg-6 col-md-6 address-w3l-right text-center">
+                  <div class="address-gried ">
+                     <span class="far fa-map"></span>
+                     <p>25478 Road St.121<br>USA New Hill
+                     <p>
+                  </div>
+                  <div class="address-gried mt-3">
+                     <span class="fas fa-phone-volume"></span>
+                     <p> +(000)123 4565<br>+(010)123 4565</p>
+                  </div>
+                  <div class=" address-gried mt-3">
+                     <span class="far fa-envelope"></span>
+                     <p><a href="mailto:info@example.com">info@example1.com</a>
+                        <br><a href="mailto:info@example.com">info@example2.com</a>
+                     </p>
+                  </div>
+               </div>
+            </div>
+           </div>
+         </section>
+         <!--//subscribe-address-->
+         <section class="sub-below-address py-lg-4 py-md-3 py-sm-3 py-3">
+            <div class="container py-lg-5 py-md-5 py-sm-4 py-3">
+               <h3 class="title clr text-center mb-lg-5 mb-md-4 mb-sm-4 mb-3">Get In Touch Us</h3>
+               <div class="icons mt-4 text-center">
+                  <ul>
+                     <li><a href="#"><span class="fab fa-facebook-f"></span></a></li>
+                     <li><a href="#"><span class="fas fa-envelope"></span></a></li>
+                     <li><a href="#"><span class="fas fa-rss"></span></a></li>
+                     <li><a href="#"><span class="fab fa-vk"></span></a></li>
+                  </ul>
+                  <p class="my-3">velit sagittis vehicula. Duis posuere 
+                     ex in mollis iaculis. Suspendisse tincidunt
+                     velit sagittis vehicula. Duis posuere 
+                     velit sagittis vehicula. Duis posuere 
+                  </p>
+               </div>
+               <div class="email-sub-agile">
+                  <form action="#" method="post">
+                     <div class="form-group sub-info-mail">
+                        <input type="email" class="form-control email-sub-agile" placeholder="Email">
+                     </div>
+                     <div class="text-center">
+                        <button type="submit" class="btn subscrib-btnn">Subscribe</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </section>
+         <!--//subscribe-->
+         <!-- footer -->
+         <footer class="py-lg-4 py-md-3 py-sm-3 py-3 text-center">
+            <div class="copy-agile-right">
+               <p> 
+                  © 2018 Toys-Shop. All Rights Reserved | Design by <a href="http://www.W3Layouts.com" target="_blank">W3Layouts</a>
+               </p>
+            </div>
+         </footer>
+         <!-- //footer -->
+         <!-- Modal 1-->
+         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="register-form">
+                        <form action="#" method="post">
+                           <div class="fields-grid">
+                              <div class="styled-input">
+                                 <input type="text" placeholder="Your Name" name="Your Name" required="">
+                              </div>
+                              <div class="styled-input">
+                                 <input type="email" placeholder="Your Email" name="Your Email" required="">
+                              </div>
+                              <div class="styled-input">
+                                 <input type="password" placeholder="password" name="password" required="">
+                              </div>
+                              <button type="submit" class="btn subscrib-btnn">Login</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- //Modal 1-->
+         <!--jQuery-->
+         <script src="../static/sample/js/jquery-2.2.3.min.js"></script>
+         <!-- newsletter modal -->
+         <!-- cart-js -->
+         <script src="../static/sample/js/minicart.js"></script>
+         <script>
+            toys.render();
+            
+            toys.cart.on('toys_checkout', function (evt) {
+               var items, len, i;
+            
+               if (this.subtotal() > 0) {
+                  items = this.items();
+            
+                  for (i = 0, len = items.length; i < len; i++) {}
+               }
+            });
+         </script>
+         <!-- //cart-js -->
+         <!-- price range (top products) -->
+         <script src="../static/sample/js/jquery-ui.js"></script>
+         <script>
+            //<![CDATA[ 
+            $(window).load(function () {
+               $("#slider-range").slider({
+                  range: true,
+                  min: 0,
+                  max: 9000,
+                  values: [50, 6000],
+                  slide: function (event, ui) {
+                     $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                  }
+               });
+               $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
+            
+            }); //]]>
+         </script>
+         <!-- //price range (top products) -->
+         <!-- single -->
+         <script src="../static/sample/js/imagezoom.js"></script>
+         <!-- single -->
+         <!-- script for responsive tabs -->
+         <script src="../static/sample/js/easy-responsive-tabs.js"></script>
+         <script>
+            $(document).ready(function () {
+               $('#horizontalTab').easyResponsiveTabs({
+                  type: 'default', //Types: default, vertical, accordion           
+                  width: 'auto', //auto or any width like 600px
+                  fit: true, // 100% fit in a container
+                  closed: 'accordion', // Start closed if in accordion view
+                  activate: function (event) { // Callback function if tab is switched
+                     var $tab = $(this);
+                     var $info = $('#tabInfo');
+                     var $name = $('span', $info);
+                     $name.text($tab.text());
+                     $info.show();
+                  }
+               });
+               $('#verticalTab').easyResponsiveTabs({
+                  type: 'vertical',
+                  width: 'auto',
+                  fit: true
+               });
+            });
+         </script>
+         <!-- FlexSlider -->
+         <script src="../static/sample/js/jquery.flexslider.js"></script>
+         <script>
+            // Can also be used with $(document).ready()
+            $(window).load(function () {
+               $('.flexslider1').flexslider({
+                  animation: "slide",
+                  controlNav: "thumbnails"
+               });
+            });
+         </script>
+         <!-- //FlexSlider-->
+         <!-- start-smoth-scrolling -->
+         <script src="../static/sample/js/move-top.js"></script>
+         <script src="../static/sample/js/easing.js"></script>
+         <script>
+            jQuery(document).ready(function ($) {
+               $(".scroll").click(function (event) {
+                  event.preventDefault();
+                  $('html,body').animate({
+                     scrollTop: $(this.hash).offset().top
+                  }, 900);
+               });
+            });
+         </script>
+         <!-- start-smoth-scrolling -->
+         <!-- here stars scrolling icon -->
+         <script>
+            $(document).ready(function () {
+            
+               var defaults = {
+                  containerID: 'toTop', // fading element id
+                  containerHoverID: 'toTopHover', // fading element hover id
+                  scrollSpeed: 1200,
+                  easingType: 'linear'
+               };
+            
+            
+               $().UItoTop({
+                  easingType: 'easeOutQuart'
+               });
+            
+            });
+         </script>
+         <!-- //here ends scrolling icon -->
+         <!-- //smooth-scrolling-of-move-up -->
+         <!--bootstrap working-->
+         <script src="../static/sample/js/bootstrap.min.js"></script>
+         <!-- //bootstrap working--> 
+      </body>
+   </html>

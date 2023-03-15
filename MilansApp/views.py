@@ -1,8 +1,9 @@
-from django.shortcuts import render,HttpResponse,HttpResponseRedirect
+from django.shortcuts import render,HttpResponseRedirect,HttpResponse,redirect
 import MySQLdb
 import datetime
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
+#from django.contrib import messages
 # from requests import request
 import simplejson as json
 from datetime import date
@@ -10,6 +11,72 @@ from datetime import datetime
 import datetime
 import webbrowser
 import math, random 
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import nltk
+
+import re
+from nltk.corpus import stopwords
+import pyttsx3
+nltk.download('stopwords')
+set(stopwords.words('english'))
+
+def my_form(request):
+    engine = pyttsx3.init()
+    engine.say('Hello, Welcome to the feedback section.')
+    engine.runAndWait()
+    return render(request,'form.html')
+ 
+
+def my_post(request):
+        if request.method == 'POST':
+                stop_words = stopwords.words('english')
+                # my contribution
+                stop_words.remove('very')
+                stop_words.remove('not')
+                
+                #convert to lowercase
+                text1 = request.POST['text1'].lower()
+                
+                # my contribution
+                text_final = ''.join(i for i in text1 if not i.isdigit())
+                net_txt=re.sub('[^a-zA-Z0-9\n]', ' ',text_final)
+                
+                #remove stopwords    
+                processed_doc1 = ' '.join([i for i in net_txt.split() if i not in stop_words])
+
+                sa = SentimentIntensityAnalyzer()
+                dd = sa.polarity_scores(text=processed_doc1)
+                compound = round((1 + dd['compound'])/2, 2)
+                final=compound*100
+                
+                if "enough" in text1 or "sufficient" in text1 or "ample" in text1 or "abudant" in text1:
+                   engine = pyttsx3.init()
+                   engine.say('You liked us by'+str(final)+'% Thank you for your valuable response')
+                   engine.runAndWait()
+                   
+                   return render(request,'form.html',{'final': final,'text1':net_txt})
+                   
+                elif final == 50:
+                   engine = pyttsx3.init()
+                   engine.say('Please enter an adequate resposnse, Thank You')
+                   engine.runAndWait()
+                   return render(request,'form.html',{'final': final,'text1':net_txt})
+                else:
+                   engine = pyttsx3.init()
+                   engine.say('You liked us by'+str(final)+'% Thank you for your valuable response')
+                   engine.runAndWait()
+                   if final > 50:
+                     
+                      return render(request,'form.html',{'final': final,'text1':net_txt})
+                   elif final < 50:
+                     
+                      return render(request,'form.html',{'final': final,'text1':net_txt})
+                   else:
+                       
+                       return render(request,'form.html',{'final': final,'text1':net_txt})
+        else:
+           return redirect('my_form')
+
 
 def sendsms(ph,msg):
     sendToPhoneNumber= "+91"+ph
@@ -37,6 +104,7 @@ db = MySQLdb.connect('localhost','root','','Milans')
 c = db.cursor()
 
 def AdminHome(request):
+    name=request.session['NAME']
     c.execute("select * from product where uname='Admin' and qty<=0")
     datas=c.fetchall()
     c.execute("select count(*) from cust_reg")
@@ -45,19 +113,98 @@ def AdminHome(request):
     productcount=c.fetchone()
     c.execute("select count(*) from staff_reg")
     staffcount=c.fetchone()
-    return render(request,'AdminHome.html',{"custcount":custcount,"productcount":productcount,"staffcount": staffcount,"datas":datas}) 
+    return render(request,'AdminHome.html',{"custcount":custcount,"productcount":productcount,"staffcount": staffcount,"datas":datas,"name":name}) 
+
+def billingaddress(request):
+    name=request.session['NAME']
+    cid=request.session["cid"]
+    c.execute("select * from cust_reg where cid='"+str(cid)+"'")
+    data=c.fetchone()
+    print(data)
+    if request.POST:
+
+        return HttpResponseRedirect("/payment1")
+    return render(request,"billingaddress.html",{"data":data,"name":name})
 
 def CommonHome(request):
     return render(request,'CommonHome.html')
 
 def CustomerHome(request):
-    return render(request,'CustomerHome.html')
+    name=request.session['NAME']
+    cid=request.session["cid"]
+    # s="select * from subcategory where status='Active'"
+    # c.execute(s)
+    # data2=c.fetchall()
+    s="select * from product p join myorderview1 m on p.pid=m.pid order by m.qty desc"
+    c.execute(s)
+    data=c.fetchall()
+    t="select * from categories where status='Active'"
+    c.execute(t)
+    data1=c.fetchall()
+    t="select count(*) from cart where cid = '"+str(cid)+"'"
+    c.execute(t)
+    dataa=c.fetchone()
+    return render(request,'CustomerHome.html',{"data":data,"data1":data1,"name":name,"dataa":dataa[0]})
+
+
+
+# s="select * from products p join myview m on p.pid=m.pid order by m.tqty desc"
+def CustomerSalesprediction(Request):
+    name=Request.session['NAME']
+    cid= Request.session["cid"]
+    s="select * from product p join myorderview1 m on p.pid=m.pid order by m.qty desc"
+    c.execute(s)
+    data=c.fetchall()
+    t="select * from categories where status='Active'"
+    c.execute(t)
+    data1=c.fetchall()
+    s="select * from subcategory"
+    c.execute(s)
+    data2=c.fetchall()
+    t="select count(*) from cart where cid = '"+str(cid)+"'"
+    c.execute(t)
+    dataa=c.fetchone()
+    return render(Request,'CustomerSalesprediction.html',{"name":name,"data":data,"data1":data1,"data2":data2,"dataa":dataa[0]})
+
+def AdminViewProductreport(request):
+    if request.POST:
+        da1=request.POST["d1"]
+        da2=request.POST["d2"]
+        c.execute("select p.pname,p.pdesc,sum(co.P_qty) as qty,sum(co.p_price),co.date as total from customer_order co join product p on(co.pid=p.pid) where co.date between '"+str(da1)+"' and '"+str(da2)+"'  group by p.pid order by sum(co.p_price) desc")
+        print("select p.pname,p.pdesc,sum(co.P_qty) as qty,sum(co.p_price),co.date as total from customer_order co join product p on(co.pid=p.pid) where co.date between '"+str(da1)+"' and '"+str(da2)+"'  group by p.pid order by sum(co.p_price) desc")
+        data=c.fetchall()
+        return render(request,"AdminViewProductreport.html",{"data":data,"da1":da1,"da2":da2})
+
+    return render(request,"AdminViewProductreport.html")
 
 def AdminDeleteProduct(request):
     id=request.GET["id"]
     c.execute("update product set status='deactivate' where pid='"+str(id)+"'")
     db.commit()
     return HttpResponseRedirect("/AdminViewProduct")
+
+def AdminSellerReport(request):
+    data = ""
+    c.execute("select p.pname,sum(co.p_price)as totalprice,sum(co.p_qty),ct.catname,sc.sname,sr.sname from product p join categories ct on(p.catid=ct.catid) join subcategory sc on(ct.catid=sc.catid) join staff_reg sr on(sr.sid=p.uname) join customer_order co on(co.pid=p.pid) group by co.pid")
+    data=c.fetchall() 
+    print(data)
+    return render (request,"AdminSellerReport.html",{"data":data})
+
+def SellerReport(request):
+    data = ""
+    c.execute("select p.pname,sum(co.p_price)as totalprice,sum(co.p_qty),ct.catname,sc.sname,sr.sname from product p join categories ct on(p.catid=ct.catid) join subcategory sc on(ct.catid=sc.catid) join staff_reg sr on(sr.sid=p.uname) join customer_order co on(co.pid=p.pid) group by co.pid")
+    data=c.fetchall() 
+    print(data)
+    return render (request,"SellerReport.html",{"data":data})
+
+
+def AdminCategoryReport(request):
+    data = ""
+    c.execute("select c.catname,sum(co.p_qty),sum(co.p_price) as totalprice from customer_order co inner join product p on co.pid=p.pid inner join categories c on p.catid=c.catid group by c.catname")
+    data=c.fetchall() 
+    print(data)
+    return render (request,"AdminCategoryReport.html",{"data":data})
+
 
 def AdminRestoreProduct(request):
     id=request.GET["id"]
@@ -126,6 +273,7 @@ def SignIn(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         c.execute("select * from login where uname='"+ email +"' and pass='"+ password +"'")
+        print("select * from login where uname='"+ email +"' and pass='"+ password +"'")
         ds = c.fetchone()
         request.session['username']=email
         if ds is not None:
@@ -134,6 +282,7 @@ def SignIn(request):
             elif ds[2] == 'Customer':
                 c.execute("select * from cust_reg where email='"+email+"' and password='"+password+"' and status='Active'")
                 ds = c.fetchone()
+                
                 if(ds):
                     request.session['cid'] = ds[0]
                     request.session['NAME'] = ds[1]
@@ -155,6 +304,16 @@ def SignIn(request):
     return render(request,'Signin.html',{"msg":msg}) 
 
 def MyProfile(request):
+    name=request.session['NAME']
+    cid = request.session['cid']
+    t1="select count(*) from cart where cid = '"+str(cid)+"'"
+    c.execute(t1)
+    dataa=c.fetchone()
+    t="select * from categories where status='Active'"
+    c.execute(t)
+    data1=c.fetchall()
+    email=request.session['username']
+    
     if request.POST:
         cname = request.POST.get("uname")
         address = request.POST.get("uaddress")
@@ -164,15 +323,14 @@ def MyProfile(request):
         email = request.POST.get("uemail")
         password = request.POST.get("upass")
         type= "Customer"
-        qry1="select count(*) from login where uname='"+str(email)+"' "
+        qry1="update cust_reg set cname='"+str(cname)+"', address = '"+str(address)+"', district = '"+str(cntry)+"', location ='"+str(state)+"' , mobile = '"+str(fon)+"' , password='"+str(password)+"' where email='"+str(email)+"' "
         c.execute(qry1)
-        dataaa=c.fetchone()
-        if(int(dataaa[0])==0):
-            """ qry="insert into cust_reg(cname,address,district,location,mobile,email,password) values('"+ str(cname) +"','"+ str(address) +"','"+ str(cntry) +"','"+ str(state) +"','"+ str(fon) +"','"+ str(email) +"','"+ str(password) +"')" """
-            qry="update cust_reg set cname="+str(cname)+",address="+ str(address) +",district="+ str(cntry) +"location="+ str(state) +"mobile="+ str(fon) +"email="+ str(fon) +"password=" + str(password) +"')"
-            c.execute(qry)
-            db.commit()
-            msg = "Profile updated successfully."
+        db.commit()
+    qry="select * from cust_reg where email='"+str(email)+"' "
+    c.execute(qry)
+    data=c.fetchone()
+    return render(request,'MyProfile.html',{"data":data,"dataa":dataa[0],"name":name,"data1":data1})
+    
 
 def CustomerSignUp(request):
     msg = ""
@@ -212,21 +370,28 @@ def SellerSignUp(request):
         fon = request.POST.get("mobile")
         email = request.POST.get("Email")
         password = request.POST.get("Password")
-        type= "Seller"
-        c.execute("select count(*) from login where uname='"+str(email)+"'")
-        data=c.fetchone()
-        
-        if(data[0]==0):
-            qry="insert into staff_reg(sname,address,district,location,mobile,email,Password) values('"+ str(cname) +"','"+ str(address) +"','"+ str(cntry) +"','"+ str(state) +"','"+ str(fon) +"','"+ str(email) +"','"+ str(password) +"')"
-            qr ="insert into login values('"+ str(email) +"','"+ str(password) +"','"+ str(type) +"')"
-            c.execute(qry)
-            c.execute(qr)
-            db.commit()
-            msg = "Registartion Completed Successfully."
-        else:
-            msg="username already exist"
+        if request.FILES.get("file"):
+            myfile=request.FILES.get("file")
+            fs=FileSystemStorage()
+            filename=fs.save(myfile.name , myfile)
+            uploaded_file_url = fs.url(filename)
+            uploaded_file_url="static"+uploaded_file_url
+            type= "Seller"
+            c.execute("select count(*) from login where uname='"+str(email)+"'")
+            data=c.fetchone()
+            
+            if(data[0]==0):
+                qry="insert into staff_reg(sname,address,district,location,mobile,email,Password,proof) values('"+ str(cname) +"','"+ str(address) +"','"+ str(cntry) +"','"+ str(state) +"','"+ str(fon) +"','"+ str(email) +"','"+ str(password) +"','"+str(uploaded_file_url)+"')"
+                qr ="insert into login values('"+ str(email) +"','"+ str(password) +"','"+ str(type) +"')"
+                c.execute(qry)
+                c.execute(qr)
+                db.commit()
+                msg = "Registartion Completed Successfully."
+            else:
+                msg="username already exist"
     print(msg)
     return render(request,'SellerSignUp.html',{"msg":msg})
+
 
 def SellerHome(request):
     sid=request.session['cid']
@@ -303,6 +468,15 @@ def AdminViewProduct(request):
 
 def SellerViewProduct(request):
     st="Active"
+    sid=request.session['cid']
+    c.execute("select * from product where uname='"+str(sid)+"' and qty<=0")
+    datas=c.fetchall()
+    c.execute("select count(*) from cust_reg")
+    custcount=c.fetchone()
+    c.execute("select count(*) from product where uname='"+str(sid)+"'")
+    productcount=c.fetchone()
+    c.execute("select count(*) from staff_reg")
+    staffcount=c.fetchone()
     c.execute("select * from categories")
     cdata=c.fetchall()
     c.execute("select * from subcategory")
@@ -323,7 +497,7 @@ def SellerViewProduct(request):
         else:
             c.execute("delete from product where pid = '"+str(pid)+"'")
             db.commit()
-    return render(request,"SellerViewProduct.html",{"data":data,"cdata":cdata,"sdata":sdata,"st":st})
+    return render(request,"SellerViewProduct.html",{"data":data,"cdata":cdata,"sdata":sdata,"st":st,"custcount":custcount,"datas":datas,"staffcount":staffcount,"productcount":productcount})
 
 def SellerdeleteProduct(request):
     pid = request.GET.get('id')
@@ -335,6 +509,14 @@ def SellerdeleteProduct(request):
 def AdminAddCategory(request):
     st="Active"
     msg=""
+    c.execute("select * from product where uname='Admin' and qty<=0")
+    datas=c.fetchall()
+    c.execute("select count(*) from cust_reg")
+    custcount=c.fetchone()
+    c.execute("select count(*) from product")
+    productcount=c.fetchone()
+    c.execute("select count(*) from staff_reg")
+    staffcount=c.fetchone()
     if request.POST:
         
         na = request.POST.get("cat_name")
@@ -354,26 +536,55 @@ def AdminAddCategory(request):
         c.execute("delete from categories where catid = '"+str(a)+"'")
         db.commit()
         return HttpResponseRedirect("/AdminAddCategory/")
-    return render(request,'AdminAddCategory.html',{"data":data,"msg":msg,"st":st})
+    return render(request,'AdminAddCategory.html',{"data":data,"msg":msg,"st":st,"datas":datas,"staffcount":staffcount,"productcount":productcount,"custcount":custcount})
 
 
 def AdminAddSubCategory(request):
     st="Active"
     msg=""
-    if request.POST:
+    c.execute("select * from product where uname='Admin' and qty<=0")
+    datas=c.fetchall()
+    c.execute("select count(*) from cust_reg")
+    custcount=c.fetchone()
+    c.execute("select count(*) from product")
+    productcount=c.fetchone()
+    c.execute("select * from subcategory")
+    sdata=c.fetchall()
+    c.execute("select * from categories")
+    cdata=c.fetchall()
+    c.execute("select count(*) from staff_reg")
+    staffcount=c.fetchone()
+    
+
+    if "ADD" in request.POST:
         ca = request.POST.get("cat_title")
         sc = request.POST.get("cat_name")
+        c.execute("select count(*) from subcategory where sname='"+str(sc)+"'")
+        data=c.fetchone()
+        print("select count(*) from subcategory where sname='"+str(sc)+"'")
         qry="insert into subcategory(catid,sname) values('"+ ca +"','"+sc+"')"
         c.execute(qry)
         db.commit()
         msg = "Subcategory Added Successfully."
-    """ c.execute("select * from categories")
+
+    c.execute("select * from categories")
     data=c.fetchall() 
-    c.execute("select * from subcategory")
-    sdata=c.fetchall() """
-    c.execute("select * from categories c,subcategory s where c.catid=s.catid")
-    data=c.fetchall()
-    return render(request,'AdminAddSubCategory.html',{"data":data,"msg":msg,"st":st})
+    c.execute("select * from subcategory join categories on(subcategory.catid=categories.catid)")
+    sdata=c.fetchall()
+
+    if "sub_Submit" in request.POST:
+        ca = request.POST.get("cat_title")
+        c.execute("select * from subcategory s,categories c  where s.catid=c.catid and s.catid= '"+str(ca)+"'")
+        sdata=c.fetchall()
+        
+    if request.GET:
+        a = request.GET.get('id')
+        c.execute("delete from subcategory where sid = '"+str(a)+"'")
+        db.commit()
+        return HttpResponseRedirect("/AdminAddSubCategory/")
+         
+    return render(request,'AdminAddSubCategory.html',{"data":data,"msg":msg,"st":st,"sdata":sdata,"staffcount":staffcount,"productcount":productcount,"custcount":custcount,"cdata":cdata})
+    
 
 def AdminViewMyBooking(request):
     cid=request.session["cid"]
@@ -383,6 +594,14 @@ def AdminViewMyBooking(request):
 
 def AdminAddEvents(request):
     msg=""
+    c.execute("select * from product where uname='Admin' and qty<=0")
+    datas=c.fetchall()
+    c.execute("select count(*) from cust_reg")
+    custcount=c.fetchone()
+    c.execute("select count(*) from product")
+    productcount=c.fetchone()
+    c.execute("select count(*) from staff_reg")
+    staffcount=c.fetchone()
     if request.POST:
         na = request.POST.get("cat_name")
         qry="insert into events(events) values('"+ na +"')"
@@ -396,7 +615,7 @@ def AdminAddEvents(request):
         c.execute("delete from events where eid = '"+str(a)+"'")
         db.commit()
         return HttpResponseRedirect("/AdminAddEvents/")
-    return render(request,'AdminAddEvents.html',{"data":data,"msg":msg})
+    return render(request,'AdminAddEvents.html',{"data":data,"msg":msg,"datas":datas,"staffcount":staffcount,"productcount":productcount,"custcount":custcount})
 
 def AdminAddEventProduct(request):
     # c.execute("select * from categories")
@@ -452,6 +671,14 @@ def AdminAddEventProduct(request):
 #             db.commit()       
 #             msg = "product Added Successfully."
 #     return render(request,"AdminAddProduct.html",{"cat":data,"msg":msg,"edata":edata})
+def AdminViewprediction(request):
+    if request.POST:
+        month=request.POST["t1"]
+        c.execute("select s.sname,max(p.qty) from subcategory s join  product p on s.sid=p.subid join customer_order co on co.pid=p.pid  where month(co.date)='"+str(month)+"' group by s.sname")
+        data=c.fetchall()
+        return render(request,"AdminViewprediction.html",{"data":data})
+
+    return render(request,"AdminViewprediction.html")
 
 def AdminAddProduct(request):
     c.execute("select * from categories")
@@ -459,12 +686,20 @@ def AdminAddProduct(request):
     # c.execute("select * from events")
     # edata=c.fetchall()
     cdate=date.today()
-    msg=""  
+    msg="" 
+    c.execute("select * from product where uname='Admin' and qty<=0")
+    datas=c.fetchall()
+    c.execute("select count(*) from cust_reg")
+    custcount=c.fetchone()
+    c.execute("select count(*) from product")
+    productcount=c.fetchone()
+    c.execute("select count(*) from staff_reg")
+    staffcount=c.fetchone()
     if request.POST:
         cdate=date.today()
         a=request.POST.get("cat")
         b=request.POST.get("subcategory")
-        c.execute("select sid from subcategory where sname = '"+b+"'")
+        c.execute("select sid from subcategory where sname  = '"+b+"' and catid= '"+a+"'")
         sub = c.fetchone()
         subid = sub[0]
         c1=request.POST.get("event")   
@@ -481,7 +716,7 @@ def AdminAddProduct(request):
             c.execute("insert into product(catid,subid,pname,pdesc,pimage,pamount,qty,size,date) values('"+ str(a) +"','"+ str(subid) +"','"+str(d)+"','"+str(e)+"','"+ uploaded_file_url +"','"+ str(f) +"','"+qty+"','"+size+"','"+str(cdate)+"')")
             db.commit()       
             msg = "product Added Successfully."
-    return render(request,"AdminAddProduct.html",{"cat":data,"msg":msg,"cdate":cdate})
+    return render(request,"AdminAddProduct.html",{"cat":data,"msg":msg,"cdate":cdate,"datas":datas,"staffcount":staffcount,"productcount":productcount,"custcount":custcount})      
 
 def SellerAddProduct(request):
     sid=request.session['cid']
@@ -491,6 +726,8 @@ def SellerAddProduct(request):
     productcount=c.fetchone()
     c.execute("select * from product where uname='"+str(sid)+"' and qty<=0")
     datas=c.fetchall()
+    c.execute("select count(*) from staff_reg")
+    staffcount=c.fetchone()
     c.execute("select * from categories")
     data=c.fetchall()
     # c.execute("select * from events")
@@ -518,9 +755,16 @@ def SellerAddProduct(request):
             c.execute("insert into product(catid,subid,pname,pdesc,pimage,pamount,qty,size,uname,date) values('"+ str(a) +"','"+ str(subid) +"','"+str(d)+"','"+str(e)+"','"+ uploaded_file_url +"','"+ str(f) +"','"+qty+"','"+size+"','"+str(uname)+"','"+str(cdate)+"')")
             db.commit()       
             msg = "product Added Successfully."
-    return render(request,"SellerAddProduct.html",{"cat":data,"msg":msg,"datas":datas,"custcount":custcount,"productcount":productcount,"cdate":cdate})
+    return render(request,"SellerAddProduct.html",{"cat":data,"msg":msg,"datas":datas,"custcount":custcount,"productcount":productcount,"cdate":cdate,"staffcount":staffcount})
 
 
+def statistics(request):
+    c.execute("select qty,pname from product")
+    data=c.fetchall()
+    return render(request,"statistics.html",{"data":data})
+
+
+ 
 def AdminAddModels(request):
     c.execute("select * from categories")
     data=c.fetchall()
@@ -678,21 +922,33 @@ def subcat(request):
     return HttpResponse(json.dumps(sublist),content_type="application/json")
 
 def CustomerAddFeedback(request):
+    name=request.session['NAME']
     msg=""
     cid = request.session['cid']
+    t="select * from categories where status='Active'"
+    c.execute(t)
+    data1=c.fetchall()
+    t1="select count(*) from cart where cid = '"+str(cid)+"'"
+    c.execute(t1)
+    dataa=c.fetchone()
     if request.POST:
         a = request.POST.get('room')
         d = date.today()
         c.execute("insert into feedback(cid,feedback,fdate) values('"+str(cid)+"','"+a+"','"+str(d)+"')")
         db.commit()
         msg = "Your feedback posted successfully"
-    return render(request,'CustomerAddFeedback.html',{"msg":msg})
+    return render(request,'CustomerAddFeedback.html',{"msg":msg,"data1":data1,"dataa":dataa[0],"name":name})
 
 def CustomerSearchProduct(Request):
+    name=Request.session['NAME']
+    cid = Request.session['cid']
     s="select * from product where status='Active';"
     c.execute(s)
     data=c.fetchall()
-    t="select * from categories"
+    t1="select count(*) from cart where cid = '"+str(cid)+"'"
+    c.execute(t1)
+    dataa=c.fetchone()
+    t="select * from categories where status='Active'"
     c.execute(t)
     data1=c.fetchall()
     s="select * from subcategory"
@@ -701,7 +957,14 @@ def CustomerSearchProduct(Request):
     e="select * from events"
     c.execute(e)
     data3=c.fetchall()
-    return render(Request,'CustomerSearchProduct.html',{"data":data,"data1":data1,"data2":data2,"data3":data3})
+    if Request.POST:
+        print("**************************************************************")
+        pname=Request.POST["t1"]
+        s="select * from product where status='Active' and pname like'%"+str(pname)+"%'"
+        c.execute(s)
+        data=c.fetchall()
+    return render(Request,'CustomerSearchProduct.html',{"data":data,"data1":data1,"data2":data2,"data3":data3,"dataa":dataa[0],"name":name})
+
     
 def CustomerSearchmodel(Request):
     s="select * from model"
@@ -720,6 +983,8 @@ def CustomerSearchmodel(Request):
 
 def CustomerViewProCategory(Request):
     cname=Request.GET.get("id")
+    name=Request.session['NAME']
+   
     s="select * from product where catid = '"+str(cname)+"'"
     c.execute(s)
     data=c.fetchall()
@@ -730,11 +995,13 @@ def CustomerViewProCategory(Request):
     c.execute(s)
     data2=c.fetchall()
     
-    return render(Request,'CustomerSearchProduct.html',{"data":data,"data1":data1,"data2":data2})
+    return render(Request,'CustomerSearchProduct.html',{"data":data,"data1":data1,"data2":data2,"name":name})
 
 def CustomerViewProSubCategory(Request):
+    name=Request.session['NAME']
     sid=Request.GET.get("id")
-    s="select * from product where subid = '"+str(sid)+"'"
+    c_id=Request.GET.get("c_id")
+    s="select * from product where subid = '"+str(sid)+"' and catid  = '"+str(c_id)+"'"
     c.execute(s)
     data=c.fetchall()
     t="select * from categories"
@@ -744,7 +1011,7 @@ def CustomerViewProSubCategory(Request):
     c.execute(s)
     data2=c.fetchall()
    
-    return render(Request,'CustomerSearchProduct.html',{"data":data,"data1":data1,"data2":data2})
+    return render(Request,'CustomerSearchProduct.html',{"data":data,"data1":data1,"data2":data2,"name":name})
 
 def CustomerViewProEvents(Request):
     sid=Request.GET.get("id")
@@ -758,10 +1025,14 @@ def CustomerViewProEvents(Request):
     return render(Request,'CustomerSearchProduct.html',{"data":data,"data3":data3})
 
 def CustomerViewProductDetails(Request):
+    name=Request.session['NAME']
     pid=Request.GET.get("id")
     msg=""
     cid = Request.session['cid']  
-    s="select * from product where pid = '"+str(pid)+"' and status='Active'"
+    t1="select count(*) from cart where cid = '"+str(cid)+"'"
+    c.execute(t1)
+    dataa=c.fetchone()
+    s="select * from product where pid = '"+str(pid)+"' and status='Active' or qty<0 "
     c.execute(s)
     data=c.fetchall()
     t="select * from categories"
@@ -773,7 +1044,7 @@ def CustomerViewProductDetails(Request):
     # e="select * from events"
     # c.execute(e)
     # data3=c.fetchall()
-    if(Request.POST):
+    if "cart" in Request.POST:
         price = data[0][6]
         qty = Request.POST.get("qty")
         if(qty=="") :
@@ -790,7 +1061,14 @@ def CustomerViewProductDetails(Request):
                 c.execute("insert into cart (cid,pid,qty,price)values('"+str(cid)+"','"+str(pid)+"','"+str(qty)+"','"+str(am)+"')")
                 db.commit()
                 msg = "Product added to cart"
-    return render(Request,'CustomerViewProductDetails.html',{"data":data,"data1":data1,"msg":msg,"data2":data2})
+    if "review" in Request.POST:
+        review= Request.POST["Message"]
+        c.execute("insert into review (pid,review,cid)values('"+str(pid)+"','"+str(review)+"','"+str(cid)+"')")
+        db.commit()
+    c.execute("select * from review join cust_reg on (review.cid=cust_reg.cid) where pid = '"+str(pid)+"' ")
+    review=c.fetchall()
+    return render(Request,'CustomerViewProductDetails.html',{"data":data,"data1":data1,"msg":msg,"data2":data2,"review":review,"name":name,"dataa":dataa[0]})
+    
 
 def CustomerOrderProduct(Request):
     pid=Request.GET.get("id")
@@ -811,6 +1089,7 @@ def CustomerOrderProduct(Request):
     return render(Request,'CustomerViewProDetails.html',{"data":data,"data1":data1,"data2":data2})
 
 def CustomerViewCart(Request):
+    name=Request.session['NAME']
     cid = Request.session["cid"]
     s="select * from cart inner join product on cart.pid = product.pid where cart.cid = '"+str(cid)+"'"
     c.execute(s)
@@ -821,6 +1100,9 @@ def CustomerViewCart(Request):
     u="select sum(price) from cart where cid = '"+str(cid)+"'"
     c.execute(u)
     data2=c.fetchone()
+    s="select * from subcategory"
+    c.execute(s)
+    data3=c.fetchall()
     totalamount = data2[0]
     tot = totalamount
     qt=""
@@ -832,7 +1114,7 @@ def CustomerViewCart(Request):
         c.execute("delete from cart where id = '"+str(ci)+"'")
         db.commit()
         return HttpResponseRedirect("/CustomerViewCart")
-    if(Request.POST):
+    if Request.POST:
         c.execute("select * from cart where cid = '"+str(cid)+"'")
         data3 = c.fetchall()
         for d3 in data3:
@@ -841,7 +1123,8 @@ def CustomerViewCart(Request):
             amot = d3[4]
             quty = d3[3]
             carid = d3[0]
-            c.execute("insert into customer_order (cid,pid,p_price,p_qty)values('"+str(custid)+"','"+str(proid)+"','"+str(amot)+"','"+str(quty)+"')")
+            today = datetime.datetime.today()
+            c.execute("insert into customer_order (cid,pid,p_price,p_qty,date)values('"+str(custid)+"','"+str(proid)+"','"+str(amot)+"','"+str(quty)+"','"+str(today)+"')")
             db.commit()
             c.execute("select qty from product where pid = '"+str(proid)+"'")
             qt=c.fetchone()
@@ -851,8 +1134,8 @@ def CustomerViewCart(Request):
             db.commit()
             c.execute("delete from cart where id = '"+str(carid)+"'")
             db.commit()
-        return HttpResponseRedirect("/payment1")
-    return render(Request,'CustomerViewCart.html',{"data":data,"data1":data1[0],"data2":data2[0]})
+        return HttpResponseRedirect("/billingaddress")
+    return render(Request,'CustomerViewCart.html',{"data":data,"data1":data1[0],"data2":data2[0],"data3":data3,"name":name})
 
 def AdminViewsales(request):
     data = ""
@@ -916,10 +1199,17 @@ def payment5(request):
     return render(request,"payment5.html",{"cno":cno,"today":today,"name":name,"amount":amount})
 
 def CustomerViewMyBooking(request):
+    name=request.session['NAME']
     cid=request.session["cid"]
+    t1="select count(*) from cart where cid = '"+str(cid)+"'"
+    c.execute(t1)
+    dataa=c.fetchone()
     c.execute("select * from customer_order inner join product on customer_order.pid = product.pid where customer_order.cid = '"+str(cid)+"'")
     data = c.fetchall()
-    return render(request,"CustomerViewMyBooking.html",{"data":data})
+    t="select * from categories where status='Active'"
+    c.execute(t)
+    data1=c.fetchall()
+    return render(request,"CustomerViewMyBooking.html",{"data":data,"dataa":dataa[0],"data1":data1,"name":name})
     
 def AdminViewMyBooking(request):
     cid=request.session["cid"]

@@ -186,7 +186,7 @@
             </tr>
             <td><a href="/CustomerHome">Back To Home</a></td>
         </table>
-        
+    
     </fieldset></div>
                 </td>
             </tr>
@@ -208,5 +208,24 @@
         </table>
     </div>
     </form>
+    <script>
+        function printDiv(divName) {
+         var printContents = document.getElementById(divName).innerHTML;
+         var originalContents = document.body.innerHTML;
+    
+         document.body.innerHTML = printContents;
+    
+         window.print();
+    
+         document.body.innerHTML = originalContents;
+    }
+    </script>
+    <p>
+        <br>
+    <input type="button" onclick="printDiv('printableArea')" value="  print Doc  " />
+        </div>
+    </div>
+    </p>
+
 </body>
 </html>

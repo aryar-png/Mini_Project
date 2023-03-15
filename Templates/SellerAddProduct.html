@@ -123,90 +123,93 @@
 
 
 
-
-
-
-
-
-
-
 {% block body %}
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %} 
+
+
 <div class="mx-5">
     <div class="my-5 py-5 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
         <div>
-<table align="center">
-<tr>
-    <td class="py-3"><label>Product  Name</label></td>
-    <td>   <input type="text" class="textbox" id="inputName" title="Alphabets only" name="Product_title"
-        pattern="[a-zA-Z]+" onkeyup="textValidator(this)" alert="Only Alphabets are Allowed">
-    <span class="error-msg" id="error"></span>
-</tr>
-<tr>
-    <td class="py-3"><label>Category Name</label></td>
-    <td><select name="cat" class="textbox" id="cat" style="color: rgb(9, 9, 9);">
-            <option>---Select Category---</option>
-                {%for c in cat %}
-            <option value="{{c.0}}">{{c.1}}</option>
-                {% endfor %}
-        </select>
-   </td>
-</tr>
-<tr>
-    <td class="py-3">Subcategory Name</td>
-    <td><select name="subcategory" class="textbox" style="color: rgb(9, 9, 9);" id="subcategory">
-        <option>---Select Subcategory---</option>
-        </select>
-    </td>
-</tr>
-<!-- <tr>
-    <td><label>Event Name</label></td>
-    <td><select name="event" value=" " class="textbox" style="color: rgb(9, 9, 9);">
-            <option>----Select Events----</option>
-                    {%for c in edata %}
-            <option value="{{c.0}}">{{c.1}}</option>
-                    {% endfor %}
-        </select>
-    </td>
-</tr> -->
-<tr>
-    <td class="py-3"><label>Price</label></td>
-    <td><input type="number" name="price" id="price" onkeyup="val_price_amt(this)" class="textbox"></td>
-    <span id="error_price"></span>
-</tr>
-<tr>
-    <td class="py-3"><label>Quantity</label></td>
-    <td><input type="number" name="qty" id="qty" onkeyup="val_qty_amt(this)" class="textbox"></td>
-    <span id="error_qty"></span>
-</tr>
-<tr>
-    <td class="py-3"><label>Size</label></td>
-    <td><input type="text" name="size" onkeyup="sizeValidator(this)" class="textbox"></td>
-    <span id="error_s"></span>
-</tr>
-<tr>
-    <td class="py-3"><label>Image</label></td>
-    <td><input type="file" name="file" class="textbox"></td>
-</tr>
-<tr>
-    <td class="py-3"><label>Description</label></td>
-    <td> <input type="text" class="textbox"  onkeyup="desValidator(this)" name="des"></td>
+            <table align="center">
+                <tr>
+                    <td class="py-3"><label>Product  Name</label></td>
+                    <td>    <input type="text" class="textbox" id="inputName" title="Alphabets only" name="Product_title"
+                               onkeyup="textValidator(this)" alert="Only Alphabets are Allowed">
+                      <span class="error-msg" id="error"></span>
+                </tr>
+                <tr>
+                    <td class="py-3"><label>Category Name</label></td>
+                    <td><select name="cat" class="textbox" id="cat" onchange="val_checkblank(this)" style="color: rgb(9, 9, 9);" >
+                            <option value="0">---Select Category---</option>
+                                {%for c in cat %}
+                            <option value="{{c.0}}">{{c.1}}</option>
+                                {% endfor %}
+                        </select>
+                        
+                   </td>
+                   <span id="error_cat"></span>
+                </tr>
+                <tr>
+                    <td class="py-3">Subcategory Name</td>
+                    <td><select name="subcategory" class="textbox" id="subcategory" >
+                        <option value="0">---Select Subcategory---</option>
+                        </select>
+                       
+                    </td>
+                    <span id="error_sub"></span>
+                </tr>
+                <!-- <tr>
+                    <td class="py-3"><label>Event Name</label></td>
+                    <td><select name="event" value=" " class="textbox" style="color: rgb(9, 9, 9);" onchange="validateSelect(this)">
+                            <option value="0">----Select Events----</option>
+                                    {%for c in edata %}
+                            <option value="{{c.0}}">{{c.1}}</option>
+                                    {% endfor %}
+                        </select>
+                        <span id="error_eve"></span>
+                    </td>
+                </tr> -->
+                <tr>
+                    <td class="py-3"><label>Price</label></td>
+                    <td><input type="number" name="price"  id="price" onkeyup="val_price_amt(this)" class="textbox"></td>
+                    <span id="error_price"></span>
+                </tr>
+                <tr>
+                    <td class="py-3"><label>Quantity</label></td>
+                    <td><input type="number" name="qty" id="qty" onkeyup="val_qty_amt(this)" class="textbox"></td>
+                    <span id="error_qty"></span>
+                </tr>
+                <tr>
+                    <td class="py-3"><label>Size</label></td>
+                    <td><input type="text" name="size" onkeyup="sizeValidator(this)" class="textbox"></td>
+                    <span id="error_s"></span>
+                </tr>
+                <tr>
+                    
+                    <td class="py-3"><label>Image</label></td>
+                    <td><input type="file" name="file" id="file" onchange="return fileValidation()"/></td>
+                    <span id="error_img"></span>
+                </tr>
+                <tr>
+                    <td class="py-3"><label>Description</label></td>
+                    <td> <input type="text" class="textbox"  onkeyup="desValidator(this)" name="des"></td>
                     <span id="error_msg"></span>
-</tr>
-
-<tr>
-    <td class="py-3"><input type="submit" value="Add" name="Add" class="btn-success"/></td>
-</tr>
-</table>
-</div>
-</div>
+                </tr>
+               
+                <tr>
+                    <td class="py-3"><input type="submit" value="Add" id="add" name="Add" class="btn-success"/></td>
+                </tr>
+                </table>
+        </div>
+    </div>
 </div>
 
 </form>
 {% if msg %}
 <div style="font-size: medium;color: brown;margin-top:  10px;">{{msg}}</div>
 {% endif %}
+
 <script src="../static/Login/js/jquery-2.2.3.min.js"></script>
     <script>
         $("#cat").change(function () {
@@ -229,8 +232,9 @@
                 })
                 })
 
-                function textValidator(input) {
-        var re = /^[^-\s][A-Za-z ]+$/;
+    
+        function textValidator(input) {
+        var re = /[A-Za-z](\s?[A-Za-z])+/;
         if (!re.test(input.value)) {
             document.getElementById("error").innerHTML = "enter valid data";
             document.getElementById("error").style.color = "red";
@@ -245,8 +249,24 @@
         
     }
 
+    function sizeValidator(input) {
+        var re = /^[^-\s][A-Z a-z ]+$/;
+        if (!re.test(input.value)) {
+            document.getElementById("error_s").innerHTML = "enter valid data";
+            document.getElementById("error_s").style.color = "red";
+            document.getElementById('add').setAttribute('disabled',true);
+            
+        }
+        else {
+            document.getElementById("error_s").innerHTML = "";
+            document.getElementById("error_s").style.color = "";
+            document.getElementById('add').removeAttribute('disabled',true);
+        }
+        
+    }
+
     function desValidator(input) {
-        var re = /^[^-\s][A-Za-z ]+$/;
+        var re = /[A-Za-z](\s?[A-Za-z])+/;
         if (!re.test(input.value)) {
             document.getElementById("error_msg").innerHTML = "Only Alhabets are Allowed";
             document.getElementById("error_msg").style.color = "red";
@@ -279,26 +299,26 @@
     }
     
 
-       function sizeValidator(input) {
-        var re = /^[^-\s][A-Za-z ]+$/;
-        if (!re.test(input.value)) {
-            document.getElementById("error_s").innerHTML = "enter valid data";
-            document.getElementById("error_s").style.color = "red";
-            document.getElementById('add').setAttribute('disabled',true);
-            
-        }
-        else {
-            document.getElementById("error_s").innerHTML = "";
-            document.getElementById("error_s").style.color = "";
-            document.getElementById('add').removeAttribute('disabled',true);
-        }
-        
-    }
         function val_price_amt(price)
         {
             if(price.value < 5)
             {
                 document.getElementById("error_price").innerHTML="Enter valid amount";
+                document.getElementById("error_price").style.color = "red";
+                document.getElementById('add').setAttribute('disabled',true);
+            }
+            else{
+                document.getElementById("error_price").innerHTML="";
+                document.getElementById("error_price").style.color = "red";
+                document.getElementById('add').removeAttribute('disabled',true);
+            }
+        }    
+
+        function val_checkblank(cat)
+        {
+            if(cat.value == 0)
+            {
+                document.getElementById("error_price").innerHTML="Please select";
                 document.getElementById("error_price").style.color = "red";
                 document.getElementById('add').setAttribute('disabled',true);
             }
@@ -322,15 +342,28 @@
                 document.getElementById('add').removeAttribute('disabled',true);
             }
         }   
+        
+        
+    function fileValidation(){
+    var fileInput = document.getElementById('file');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.webp)$/i;
+    if(!allowedExtensions.exec(filePath)){
+        document.getElementById("error_img").innerHTML="Please upload file having extensions .jpeg/.jpg/.png/.gif only.";
+        document.getElementById("error_img").style.color = "red";
+        fileInput.value = '';
+        return false;
+    }else{
 
+        //Image preview
+        document.getElementById("error_img").innerHTML="";
+                document.getElementById("error_img").style.color = "red";
+                document.getElementById('add').removeAttribute('disabled',true);
+    }
+}
 
 
 </script>
-
-
-
-</script>
-
 
 {% endblock %}
 
